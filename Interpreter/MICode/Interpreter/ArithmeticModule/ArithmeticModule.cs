@@ -7,7 +7,7 @@ public class ArithmeticModule : ModuleBase {
     }
 
     private static Queue<Token> Tokenize(string input) {
-
+        return null;
     }
 
     private static Queue<string> ToPostFix(Queue<Token> tokens) {
@@ -17,7 +17,7 @@ public class ArithmeticModule : ModuleBase {
         foreach(Token token in tokens) {
             
         }
-
+        return null;
     }
 
     private static void EvalutePostFix() {
