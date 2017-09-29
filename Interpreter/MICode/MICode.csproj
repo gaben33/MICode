@@ -43,14 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interpreter\ModuleBase.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Interpreter\Program.cs" />
+    <Compile Include="Interpreter\VariableModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interpreter\VariableManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Blaze\SampleProgram.blaze" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Blaze\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
