@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interpreter\ArithmeticModule\ArithmeticModule.cs" />
+    <Compile Include="Interpreter\ArithmeticModule\Operand.cs" />
+    <Compile Include="Interpreter\ArithmeticModule\Operator.cs" />
+    <Compile Include="Interpreter\ArithmeticModule\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
     <Compile Include="Interpreter\Program.cs" />
     <Compile Include="Interpreter\VariableModule.cs" />
