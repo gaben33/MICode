@@ -17,15 +17,20 @@ namespace MICode.Interpreter {
 
 		public static Dictionary<string, dynamic> VarValues = new Dictionary<string, dynamic>(500);
 
-		public static string GetValue(string variable) => VarValues[variable].ToString();
+		public static string GetValue(string variable) {
+			if(VarTypes.ContainsKey(variable)) return VarValues[variable].ToString();
+			return variable;
+		}
 
 		public static void CreateVariable<T>(string name, T initialValue) {
-			if(!VarTypes.ContainsKey(name)) {
+			if(!VarTypes.ContainsKey(name) && IsValidName(name)) {
 				VarTypes.Add(name, typeof(T));
 				VarValues.Add(name, initialValue);
 			}
 		}
 
-		public static void CreateVariable<T>(string name) => CreateVariable<T>(name, default(T));
+		public static void CreateVariable<T>(string name) => CreateVariable(name, default(T));
+
+		private static bool IsValidName(string name) => char.IsLetter(name[0]);
 	}
 }

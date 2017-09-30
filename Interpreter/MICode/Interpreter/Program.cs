@@ -8,11 +8,15 @@ namespace MICode.Interpreter {
 	public class Program {
 		#region variables
 		private static bool running = true;
+		private static ModuleBase[] Modules = new ModuleBase[] {
+			
+		};
 		#endregion
 
 		static void Main(string[] args) {
 			while (running) {
 				if (CommandQueue.Count > 0) CommandQueue.Dequeue()();
+				for (int i = 0; i < Modules.Length; i+= Modules[i].Transform(args[0]) ? 1 : 0);
 			}
 		}
 

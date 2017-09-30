@@ -29,7 +29,9 @@ namespace MICode.Interpreter {
 			//		break;
 			//}
 			Type t = Type.GetType(m.Groups[1].Value);
-			if(hasInitialVal) 
+			dynamic initialVal = null;
+			if (hasInitialVal) initialVal = VariableManager.parsers[t](m.Groups[4].Value);
+			VariableManager.CreateVariable(m.Groups[2].Value, initialVal);
 			return true;
 		}
 	}

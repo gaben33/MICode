@@ -47,6 +47,7 @@
     <Compile Include="Interpreter\ArithmeticModule\Operator.cs" />
     <Compile Include="Interpreter\ArithmeticModule\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
+    <Compile Include="Interpreter\modules\PrintModule.cs" />
     <Compile Include="Interpreter\Program.cs" />
     <Compile Include="Interpreter\VariableModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
