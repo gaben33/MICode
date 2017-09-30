@@ -11,13 +11,15 @@ namespace MICode.Interpreter.ArithmeticModule {
         public static readonly Operator Minus = new Operator("-", 2, Association.Left, (i1, i2) => i1 - i2);
         public static readonly Operator Times = new Operator("*", 3, Association.Left, (i1, i2) => i1 * i2);
         public static readonly Operator Divide = new Operator("/", 3, Association.Left, (i1, i2) => i1 / i2);
+        public static readonly Operator Modulus = new Operator("%", 3, Association.Left, (i1, i2) => i1 % i2);
+        public static readonly Operator Power = new Operator("^", 3, Association.Right, (i1, i2) => (int) Math.Pow(i1, i2));
+        public static readonly Operator Factorial = new Operator("!", 3, Association.Left, (i1) => i1);
 
         public static IEnumerable<Operator> Values {
             get {
-                yield return Plus;
-                yield return Minus;
-                yield return Times;
-                yield return Divide;
+                foreach(Operator o in Operator.Values) {
+                    yield return o;
+                }
             }
         }
 
@@ -26,15 +28,25 @@ namespace MICode.Interpreter.ArithmeticModule {
         public readonly string name;
         public readonly int precedence;
         public readonly Association association;
-        public Func<int, int, int> PerformOperation;
+        public readonly Func<double, double, double> PerformBinaryOperation;
+        public readonly Func<int, int> PerformUnaryOperation;
 
-        private Operator(string name, int precedence, Association association, Func<int, int, int> PerfromOperation) {
+        private Operator(string name, int precedence, Association association, Func<double, double, double> PerformOperation) {
             this.name = name;
             this.precedence = precedence;
             this.association = association;
-            this.PerformOperation = PerformOperation;
+            this.PerformBinaryOperation = PerformOperation;
         }
-        
 
+        private Operator(string name, int precedence, Association association, Func<int, int> PerformOperation) {
+            this.name = name;
+            this.precedence = precedence;
+            this.association = association;
+            this.PerformUnaryOperation = PerformOperation;
+        }
+
+        public override string ToString() {
+            return name;
+        }
     }
 }

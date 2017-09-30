@@ -1,0 +1,13 @@
+int cory = 5;
+boolean a = true;
+float r = 0.5f;
+char c = 'c';
+
+print(cory); //prints cory
+
+if(cory == 5)
+	print("cory is 5");
+else 
+	cory--;
+	print(cory);
+	goto 8;

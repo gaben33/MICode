@@ -17,7 +17,7 @@ namespace MICode.Interpreter {
 			while (running) {
 				if (CommandQueue.Count > 0) CommandQueue.Dequeue()();
 				for (int i = 0; i < Modules.Length; i+= Modules[i].Transform(args[0]) ? 1 : 0);
-			}
+			} 
 		}
 
 		public static Queue<Action> CommandQueue = new Queue<Action>();

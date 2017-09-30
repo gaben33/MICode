@@ -12,7 +12,9 @@ namespace MICode.Interpreter.ArithmeticModule {
             if (input.Equals("-")) return Operator.Minus;
             if (input.Equals("*")) return Operator.Times;
             if (input.Equals("/")) return Operator.Divide;
-            return new Operand(input);
+            if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val);
+            return new Operand(Double.Parse(input));
+
         }
     }
 

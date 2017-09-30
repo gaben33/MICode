@@ -22,6 +22,12 @@ namespace MICode.Interpreter {
 			return variable;
 		}
 
+        public static bool HasVariable(string variable, out dynamic value) {
+            bool o = VarValues.ContainsKey(variable);
+            value = (o ? GetValue(variable) : null);
+            return o;
+        }
+
 		public static dynamic GetValue(string variable) => VarValues[variable];
 
 		public static void CreateVariable<T>(string name, T initialValue) {

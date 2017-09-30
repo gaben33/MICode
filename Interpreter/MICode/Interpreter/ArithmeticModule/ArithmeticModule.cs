@@ -8,17 +8,16 @@ namespace MICode.Interpreter.ArithmeticModule {
 
     public class ArithmeticModule : ModuleBase {
 
-
-        public override void Transform(string regex) {
+        public override bool Transform(string regex) {
             throw new NotImplementedException();
         }
 
-        public static void Evaluate(String input) {
-            
+        public static dynamic Evaluate(string input) {
+            return EvaluatePostFix(ToPostFix(Tokenize(input)));
         }
 
         private static Queue<Token> Tokenize(string input) {
-            String[] tokens = input.Split(' ');
+            string[] tokens = input.Split(' ');
             Queue<Token> output = new Queue<Token>(tokens.Select(s => Token.MakeToken(s)));
             return output;
         }
@@ -45,11 +44,24 @@ namespace MICode.Interpreter.ArithmeticModule {
             return output;
         }
 
-        private static void EvalutePostFix() {
-            //Operator.Plus.PerformOperation(1, 2);
+        private static dynamic EvaluatePostFix(Queue<Token> tokens) {
+            Stack<Token> numbers = new Stack<Token>();
+            while(tokens.Count > 0) {
+                Token token = tokens.Dequeue();
+                if (!token.GetType().Equals(typeof(Operator))) {
+                    numbers.Push(token);
+                } else {
+                    Operand op1 = (Operand) numbers.Pop();
+                    Operand op2 = (Operand) numbers.Pop();
+                    Operator op = (Operator) token;
+                    double n1 = op1.GetValue();
+                    double n2 = op2.GetValue();
+                    double o = op.PerformBinaryOperation(n2, n1);
+                    numbers.Push(Token.MakeToken(o.ToString()));
+                }
+            }
+            return numbers.Peek();
         }
-
-        
     }
 }
 
