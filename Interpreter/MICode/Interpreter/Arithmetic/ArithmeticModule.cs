@@ -27,15 +27,15 @@ namespace MICode.Interpreter.ArithmeticModule {
                     output.Enqueue(token);
                 } else {
                     Operator op = (Operator) token;
-                    if(op != Operator.LeftParentheses || op != Operator.RightParentheses) {
+                    if(op.name != "(" || op.name != ")") {
                         while (operators.Count > 0 && operators.Peek().precedence >= op.precedence && operators.Peek().association == Operator.Association.Left) {
                             output.Enqueue(operators.Pop());
                         }
                         operators.Push(op);
-                    } else if(op == Operator.LeftParentheses) {
+                    } else if(op.name == "(") {
                         operators.Push(op);
-                    } else if(op == Operator.RightParentheses) {
-                        while(operators.Peek() != Operator.LeftParentheses) {
+                    } else if(op.name == ")") {
+                        while(operators.Peek().name != "(") {
                             output.Enqueue(operators.Pop());
                         }
                         operators.Pop();
@@ -44,7 +44,9 @@ namespace MICode.Interpreter.ArithmeticModule {
             }
 
             while(operators.Count > 0) {
-                output.Enqueue(operators.Pop());
+                if (operators.Peek().name != "(" && operators.Peek().name != ")") {
+                    output.Enqueue(operators.Pop());
+                } else operators.Pop();
             }
             return output;
         }
@@ -52,13 +54,12 @@ namespace MICode.Interpreter.ArithmeticModule {
         private static dynamic EvaluatePostFix(Queue<Token> tokens) {
             Stack<Token> numbers = new Stack<Token>();
             while(tokens.Count > 0) {
-                Token token = tokens.Dequeue();
-                if (!token.GetType().Equals(typeof(Operator))) {
-                    numbers.Push(token);
+                if (!tokens.Peek().GetType().Equals(typeof(Operator))) {
+                    numbers.Push(tokens.Dequeue());
                 } else {
                     Operand op1 = (Operand) numbers.Pop();
                     Operand op2 = (Operand) numbers.Pop();
-                    Operator op = (Operator) token;
+                    Operator op = (Operator) tokens.Dequeue();
                     double n1 = op1.GetValue();
                     double n2 = op2.GetValue();
                     double o = op.PerformBinaryOperation(n2, n1);
