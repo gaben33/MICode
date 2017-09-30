@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace MICode.Interpreter.ArithmeticModule {
 
-    public class ArithmeticModule : ModuleBase {
-
-        public override bool Transform(string regex) {
-
-            throw new NotImplementedException();
-        }
+    public class ArithmeticManager {
 
         public static dynamic Evaluate(string input) {
             return EvaluatePostFix(ToPostFix(Tokenize(input)));

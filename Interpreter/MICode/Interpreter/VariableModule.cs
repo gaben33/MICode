@@ -13,11 +13,11 @@ namespace MICode.Interpreter {
 				bool hasInitialVal = m.Groups[4].Length > 0;
 				Type t = ToType(m.Groups[1].Value);
 				dynamic initialVal = null;
-                dynamic val = ArithmeticModule.ArithmeticModule.Evaluate(m.Groups[4].Value);
+                dynamic val = ArithmeticModule.ArithmeticManager.Evaluate(m.Groups[4].Value);
 				if (hasInitialVal) initialVal = VariableManager.parsers[t](val.ToString());
 				VariableManager.CreateVariable<dynamic>(m.Groups[2].Value, initialVal);
 			}
-			return true;
+			return false;
 		}
 
 		private Type ToType (string type) {

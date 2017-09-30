@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace MICode.Interpreter {
-	class PrintModule : ModuleBase {
+	public class GotoModule : ModuleBase {
 		public override bool Transform(string regex) {
-			Match m = Regex.Match(regex, @"print\((.*)\);");
-			if(m.Success) {
-				Console.WriteLine(VariableManager.ToFaceValue(m.Groups[1].Value));
-			}
-			return false;
+			Match m = Regex.Match(regex, @"goto (\d+)");
+			if(m.Success) Program.CommandQueue.Enqueue(() => Program.SetLine(int.Parse(m.Groups[1].Value) - 2));
+			return true;
 		}
 	}
 }

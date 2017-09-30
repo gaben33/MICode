@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interpreter\ArithmeticModule\ArithmeticModule.cs" />
-    <Compile Include="Interpreter\ArithmeticModule\Operand.cs" />
-    <Compile Include="Interpreter\ArithmeticModule\Operator.cs" />
-    <Compile Include="Interpreter\ArithmeticModule\Token.cs" />
+    <Compile Include="Interpreter\Arithmetic\ArithmeticModule.cs" />
+    <Compile Include="Interpreter\Arithmetic\Operand.cs" />
+    <Compile Include="Interpreter\Arithmetic\Operator.cs" />
+    <Compile Include="Interpreter\Arithmetic\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
+    <Compile Include="Interpreter\modules\GotoModule.cs" />
     <Compile Include="Interpreter\modules\PrintModule.cs" />
     <Compile Include="Interpreter\Program.cs" />
     <Compile Include="Interpreter\VariableModule.cs" />

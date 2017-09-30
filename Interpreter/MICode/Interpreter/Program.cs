@@ -12,8 +12,8 @@ namespace MICode.Interpreter {
 		private static bool running = true;
 		private static ModuleBase[] Modules = new ModuleBase[] {
 			new VariableModule(),
-			//new ArithmeticModule.ArithmeticModule(),
-			new PrintModule()
+			new PrintModule(),
+			new GotoModule()
 		};
 
 		private static int line = 0;
@@ -34,8 +34,9 @@ namespace MICode.Interpreter {
 			while (running && line < lines.Count) {
 				while (CommandQueue.Count > 0) CommandQueue.Dequeue()();
 				for (int i = 0; i < Modules.Length; i++) {
-					Modules[i].Transform(lines[line]);
+					bool forceContinue = Modules[i].Transform(lines[line]);
 					while (CommandQueue.Count > 0) CommandQueue.Dequeue()();
+					if (forceContinue) break;
 				}
 				line++;
 			}
