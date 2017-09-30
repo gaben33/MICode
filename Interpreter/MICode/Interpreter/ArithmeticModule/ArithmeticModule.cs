@@ -9,6 +9,7 @@ namespace MICode.Interpreter.ArithmeticModule {
     public class ArithmeticModule : ModuleBase {
 
         public override bool Transform(string regex) {
+
             throw new NotImplementedException();
         }
 
@@ -31,12 +32,21 @@ namespace MICode.Interpreter.ArithmeticModule {
                     output.Enqueue(token);
                 } else {
                     Operator op = (Operator) token;
-                    while (operators.Count > 0 && operators.Peek().precedence >= op.precedence && operators.Peek().association == Operator.Association.Left) {
-                        output.Enqueue(operators.Pop());
-                    } 
-                    operators.Push(op);
+                    if(op != Operator.LeftParentheses || op != Operator.RightParentheses) {
+                        while (operators.Count > 0 && operators.Peek().precedence >= op.precedence && operators.Peek().association == Operator.Association.Left) {
+                            output.Enqueue(operators.Pop());
+                        }
+                        operators.Push(op);
+                    } else if(op == Operator.LeftParentheses) {
+                        operators.Push(op);
+                    } else if(op == Operator.RightParentheses) {
+                        while(operators.Peek() != Operator.LeftParentheses) {
+                            output.Enqueue(operators.Pop());
+                        }
+                        operators.Pop();
                     }
                 }
+            }
 
             while(operators.Count > 0) {
                 output.Enqueue(operators.Pop());

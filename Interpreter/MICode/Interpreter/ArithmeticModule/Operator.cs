@@ -12,8 +12,10 @@ namespace MICode.Interpreter.ArithmeticModule {
         public static readonly Operator Times = new Operator("*", 3, Association.Left, (i1, i2) => i1 * i2);
         public static readonly Operator Divide = new Operator("/", 3, Association.Left, (i1, i2) => i1 / i2);
         public static readonly Operator Modulus = new Operator("%", 3, Association.Left, (i1, i2) => i1 % i2);
-        public static readonly Operator Power = new Operator("^", 3, Association.Right, (i1, i2) => (int) Math.Pow(i1, i2));
-        public static readonly Operator Factorial = new Operator("!", 3, Association.Left, (i1) => i1);
+        public static readonly Operator Power = new Operator("^", 4, Association.Right, (i1, i2) => (int) Math.Pow(i1, i2));
+        public static readonly Operator Factorial = new Operator("!", 4, Association.Left, (i1) => i1);
+        public static readonly Operator LeftParentheses = new Operator("(", 0, Association.None, null);
+        public static readonly Operator RightParentheses = new Operator(")", 0, Association.None, null);
 
         public static IEnumerable<Operator> Values {
             get {
@@ -23,7 +25,7 @@ namespace MICode.Interpreter.ArithmeticModule {
             }
         }
 
-        public enum Association {Left, Right};
+        public enum Association {Left, Right, None};
 
         public readonly string name;
         public readonly int precedence;

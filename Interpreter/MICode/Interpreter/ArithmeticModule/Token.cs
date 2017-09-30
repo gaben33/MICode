@@ -12,6 +12,10 @@ namespace MICode.Interpreter.ArithmeticModule {
             if (input.Equals("-")) return Operator.Minus;
             if (input.Equals("*")) return Operator.Times;
             if (input.Equals("/")) return Operator.Divide;
+            if (input.Equals("%")) return Operator.Modulus;
+            if (input.Equals("^")) return Operator.Power;
+            if (input.Equals("(")) return Operator.LeftParentheses;
+            if (input.Equals(")")) return Operator.RightParentheses;
             if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val);
             return new Operand(Double.Parse(input));
 
