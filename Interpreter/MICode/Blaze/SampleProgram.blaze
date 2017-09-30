@@ -1,4 +1,6 @@
-﻿int x = 5 * 2 ^ 4;
+﻿#DEFINE whomst 5
+//this is a comment
+int x = whomst * 2 ^ 4;
 int y = 3 + x;
 print(x);
 print(y);
