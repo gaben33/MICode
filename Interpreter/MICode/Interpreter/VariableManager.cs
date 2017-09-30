@@ -18,20 +18,20 @@ namespace MICode.Interpreter {
 		public static Dictionary<string, dynamic> VarValues = new Dictionary<string, dynamic>(500);
 
 		public static string ToFaceValue(string variable) {
-			if(VarTypes.ContainsKey(variable)) return VarValues[variable].ToString();
+			if (VarTypes.ContainsKey(variable)) return VarValues[variable].ToString();
 			return variable;
 		}
 
-        public static bool HasVariable(string variable, out dynamic value) {
-            bool o = VarValues.ContainsKey(variable);
-            value = (o ? GetValue(variable) : null);
-            return o;
-        }
+		public static bool HasVariable(string variable, out dynamic value) {
+			bool o = VarValues.ContainsKey(variable);
+			value = (o ? GetValue(variable) : null);
+			return o;
+		}
 
 		public static dynamic GetValue(string variable) => VarValues[variable];
 
 		public static void CreateVariable<T>(string name, T initialValue) {
-			if(!VarTypes.ContainsKey(name) && IsValidName(name)) {
+			if (!VarTypes.ContainsKey(name) && IsValidName(name)) {
 				VarTypes.Add(name, typeof(T));
 				VarValues.Add(name, initialValue);
 			}

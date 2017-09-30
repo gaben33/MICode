@@ -1,11 +1,2 @@
 ﻿int x = 5;
-char z = x;
-
-//C#
-using static Math;
-
-public class SampleProgram {
-	public SampleProgram() {
-		Console.WriteLine(Sin(5));
-	}
-}
+print(x);

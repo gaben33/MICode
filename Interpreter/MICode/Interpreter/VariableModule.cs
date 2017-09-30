@@ -9,30 +9,24 @@ namespace MICode.Interpreter {
 	public class VariableModule : ModuleBase {
 		public override bool Transform(string regex) {
 			Match m = Regex.Match(regex, @"(int|char|float|bool)\s?([A-Za-z]+)\s?(=\s?([^;]+))?;");
-			bool hasInitialVal = m.Groups[4].Length > 0;
-			//switch(m.Groups[1].Value) {
-			//	case "int":
-			//		if (hasInitialVal) VariableManager.intVars.Add(m.Groups[2].Value, int.Parse(m.Groups[4].Value));
-			//		else VariableManager.intVars.Add(m.Groups[2].Value, 0);
-			//		break;
-			//	case "char":
-			//		if (hasInitialVal) VariableManager.charVars.Add(m.Groups[2].Value, char.Parse(m.Groups[4].Value));
-			//		else VariableManager.charVars.Add(m.Groups[2].Value, (char)0);
-			//		break;
-			//	case "float":
-			//		if (hasInitialVal) VariableManager.floatVars.Add(m.Groups[2].Value, float.Parse(m.Groups[4].Value));
-			//		else VariableManager.floatVars.Add(m.Groups[2].Value, 0);
-			//		break;
-			//	case "bool":
-			//		if (hasInitialVal) VariableManager.boolVars.Add(m.Groups[2].Value, bool.Parse(m.Groups[4].Value));
-			//		else VariableManager.boolVars.Add(m.Groups[2].Value, false);
-			//		break;
-			//}
-			Type t = Type.GetType(m.Groups[1].Value);
-			dynamic initialVal = null;
-			if (hasInitialVal) initialVal = VariableManager.parsers[t](m.Groups[4].Value);
-			VariableManager.CreateVariable(m.Groups[2].Value, initialVal);
+			if (m.Success) {
+				bool hasInitialVal = m.Groups[4].Length > 0;
+				Type t = ToType(m.Groups[1].Value);
+				dynamic initialVal = null;
+				if (hasInitialVal) initialVal = VariableManager.parsers[t](m.Groups[4].Value);
+				VariableManager.CreateVariable<dynamic>(m.Groups[2].Value, initialVal);
+			}
 			return true;
+		}
+
+		private Type ToType (string type) {
+			switch(type) {
+				case "int": return typeof(int);
+				case "char": return typeof(char);
+				case "float": return typeof(float);
+				case "bool": return typeof(bool);
+				default: return typeof(int);
+			}
 		}
 	}
 }
