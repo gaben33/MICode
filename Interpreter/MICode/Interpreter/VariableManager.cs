@@ -17,10 +17,12 @@ namespace MICode.Interpreter {
 
 		public static Dictionary<string, dynamic> VarValues = new Dictionary<string, dynamic>(500);
 
-		public static string GetValue(string variable) {
+		public static string ToFaceValue(string variable) {
 			if(VarTypes.ContainsKey(variable)) return VarValues[variable].ToString();
 			return variable;
 		}
+
+		public static dynamic GetValue(string variable) => VarValues[variable];
 
 		public static void CreateVariable<T>(string name, T initialValue) {
 			if(!VarTypes.ContainsKey(name) && IsValidName(name)) {
@@ -31,6 +33,6 @@ namespace MICode.Interpreter {
 
 		public static void CreateVariable<T>(string name) => CreateVariable(name, default(T));
 
-		private static bool IsValidName(string name) => char.IsLetter(name[0]);
+		public static bool IsValidName(string name) => char.IsLetter(name[0]);
 	}
 }

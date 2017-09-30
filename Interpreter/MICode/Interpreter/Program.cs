@@ -9,7 +9,7 @@ namespace MICode.Interpreter {
 		#region variables
 		private static bool running = true;
 		private static ModuleBase[] Modules = new ModuleBase[] {
-			
+			new PrintModule()
 		};
 		#endregion
 

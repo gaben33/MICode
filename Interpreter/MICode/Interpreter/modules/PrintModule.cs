@@ -10,7 +10,7 @@ namespace MICode.Interpreter {
 		public override bool Transform(string regex) {
 			Match m = Regex.Match(regex, @"print\((.*)\);");
 			if(m.Success) {
-				Console.WriteLine(VariableManager.GetValue(m.Groups[1].Value));
+				Console.WriteLine(VariableManager.ToFaceValue(m.Groups[1].Value));
 				return true;
 			}
 			return false;
