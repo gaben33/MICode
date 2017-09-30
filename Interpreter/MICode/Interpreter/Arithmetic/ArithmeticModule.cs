@@ -57,11 +57,9 @@ namespace MICode.Interpreter.ArithmeticModule {
                 if (!tokens.Peek().GetType().Equals(typeof(Operator))) {
                     numbers.Push(tokens.Dequeue());
                 } else {
-                    Operand op1 = (Operand) numbers.Pop();
-                    Operand op2 = (Operand) numbers.Pop();
+                    double n1 = ((Operand) numbers.Pop()).GetValue();
+                    double n2 = ((Operand) numbers.Pop()).GetValue();
                     Operator op = (Operator) tokens.Dequeue();
-                    double n1 = op1.GetValue();
-                    double n2 = op2.GetValue();
                     double o = op.PerformBinaryOperation(n2, n1);
                     numbers.Push(Token.MakeToken(o.ToString()));
                 }
