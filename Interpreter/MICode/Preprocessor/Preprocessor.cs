@@ -12,6 +12,7 @@ namespace MICode.Preprocessor {
 		public static void Fix (string path, string output) {
 			string template = File.ReadAllText(path);
 			EraseComments(ref template);
+			DoDefines(ref template);
 			
 			using (StreamWriter swr = File.CreateText(output)) {
 				swr.Write(template);
@@ -29,10 +30,10 @@ namespace MICode.Preprocessor {
 				if(m.Success) {
 					string definition = m.Groups[1].Value;
 					string replacement = m.Groups[2].Value;
-					text = text.Replace(definition, replacement);
+					text = Regex.Replace(text, definition, replacement);
 				}
 			}
-			text = text.Replace("#DEFINE .+", "");
+			text = Regex.Replace(text, "#DEFINE .+", "");
 		}
 	}
 }

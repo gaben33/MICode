@@ -31,8 +31,8 @@ namespace MICode.Interpreter {
 				} else return;
 			}
 			string newPath = args[0].Replace(".blaze", ".pblaze");
-			args[0] = newPath;
-			List<string> lines = File.ReadAllLines(args[0]).ToList();
+			Preprocessor.Preprocessor.Fix(args[0], newPath);
+			List<string> lines = File.ReadAllLines(newPath).ToList();
 			while (running && line < lines.Count) {
 				while (CommandQueue.Count > 0) CommandQueue.Dequeue()();
 				for (int i = 0; i < Modules.Length; i++) {
