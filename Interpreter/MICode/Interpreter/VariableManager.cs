@@ -30,6 +30,12 @@ namespace MICode.Interpreter {
 
 		public static dynamic GetValue(string variable) => VarValues[variable];
 
+		public static void SetValue (string variable, string value) {
+			Type t = VarTypes[variable];
+			dynamic val = parsers[t](ArithmeticModule.ArithmeticManager.Evaluate(value));
+			VarValues[variable] = val;
+		}
+
 		public static void CreateVariable<T>(string name, T initialValue) {
 			if (!VarTypes.ContainsKey(name) && IsValidName(name)) {
 				VarTypes.Add(name, typeof(T));
