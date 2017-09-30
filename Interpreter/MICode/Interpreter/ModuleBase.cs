@@ -7,7 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace MICode.Interpreter {
 	public abstract class ModuleBase {
-		public abstract void Transform(string regex);
+		//whether or not to advance to the next line (might just modify the current line without building a command
+		public abstract bool Transform(string regex);
 		
 	}
 }
