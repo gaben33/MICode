@@ -1,2 +1,4 @@
-﻿int x = 5;
+﻿int x = 5 * 2 ^ 4;
+int y = 3 + x;
 print(x);
+print(y);
