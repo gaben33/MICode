@@ -60,8 +60,12 @@ namespace MICode.Interpreter.ArithmeticModule {
                     dynamic n1 = ((Operand) numbers.Pop()).GetValue();
                     dynamic n2 = ((Operand) numbers.Pop()).GetValue();
                     Operator op = (Operator) tokens.Dequeue();
-                    dynamic o = op.PerformBinaryOperation(n2, n1);
-                    numbers.Push(Token.MakeToken(o.ToString()));
+                    try {
+                        dynamic o = op.PerformBinaryOperation(n2, n1);
+                        numbers.Push(Token.MakeToken(o.ToString()));
+                    } catch (Exception e) {
+                        throw new FormatException("Mixed Types");
+                    }
                 }
             }
             return numbers.Peek();
