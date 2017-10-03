@@ -9,8 +9,8 @@ namespace MICode.Interpreter.ArithmeticModule {
 
         public static Token MakeToken(string input) {
             if (Operator.IsOperator(input, out Operator op)) return op;
-            if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val);
-            return new Operand(Double.Parse(input));
+            if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val.ToString());
+            return new Operand(input);
         }
     }
 

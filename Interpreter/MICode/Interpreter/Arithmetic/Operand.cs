@@ -10,11 +10,11 @@ namespace MICode.Interpreter.ArithmeticModule {
         dynamic value;
 
         public Operand(string input) {
-            this.value = VariableManager.VarValues[input];
-        }
-
-        public Operand(double input) {
-            this.value = input;
+            if (bool.TryParse(input, out bool boolResult)) value = boolResult;
+            else if (int.TryParse(input, out int intResult)) value = intResult;
+            else if (float.TryParse(input, out float floatResult)) value = floatResult;
+            else if(char.TryParse(input, out char charResult)) value = charResult;
+            else throw new NotImplementedException();
         }
 
         public dynamic GetValue() {

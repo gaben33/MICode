@@ -15,12 +15,31 @@ namespace MICode.Interpreter.ArithmeticModule {
         public static readonly Operator Power = new Operator("^", 4, Association.Right, (i1, i2) => (int)Math.Pow(i1, i2));
         public static readonly Operator LeftParentheses = new Operator("(", 0, Association.None, null);
         public static readonly Operator RightParentheses = new Operator(")", 0, Association.None, null);
+        public static readonly Operator LogicalEquals = new Operator("==", (i1, i2) => i1 == i2);
+        public static readonly Operator LogicalAnd = new Operator("&&", (i1, i2) => i1 && i2);
+        public static readonly Operator LogicalOr = new Operator("||", (i1, i2) => i1 || i2);
+        public static readonly Operator LogicalGreaterThan = new Operator(">", (i1, i2) => i1 > i2);
+        public static readonly Operator LogicalLessThan = new Operator("<", (i1, i2) => i1 < i2);
+        public static readonly Operator LogicalGreaterOrEqualTo = new Operator(">=", (i1, i2) => i1 >= i2);
+        public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", (i1, i2) => i1 <= i2);
 
         public static IEnumerable<Operator> Values {
             get {
-                foreach (Operator o in Operator.Values) {
-                    yield return o;
-                }
+                yield return Plus;
+                yield return Minus;
+                yield return Times;
+                yield return Divide;
+                yield return Modulus;
+                yield return Power;
+                yield return LeftParentheses;
+                yield return RightParentheses;
+                yield return LogicalEquals;
+                yield return LogicalAnd;
+                yield return LogicalOr;
+                yield return LogicalGreaterThan;
+                yield return LogicalLessThan;
+                yield return LogicalGreaterOrEqualTo;
+                yield return LogicalLessOrEqualTo;
             }
         }
 
@@ -29,12 +48,17 @@ namespace MICode.Interpreter.ArithmeticModule {
         public readonly string name;
         public readonly int precedence;
         public readonly Association association;
-        public readonly Func<double, double, double> PerformBinaryOperation;
+        public readonly Func<dynamic, dynamic, dynamic> PerformBinaryOperation;
 
-        private Operator(string name, int precedence, Association association, Func<double, double, double> PerformOperation) {
+        private Operator(string name, int precedence, Association association, Func<dynamic, dynamic, dynamic> PerformOperation) {
             this.name = name;
             this.precedence = precedence;
             this.association = association;
+            this.PerformBinaryOperation = PerformOperation;
+        }
+
+        private Operator(string name, Func<dynamic, dynamic, dynamic> PerformOperation) {
+            this.name = name;
             this.PerformBinaryOperation = PerformOperation;
         }
 

@@ -57,10 +57,10 @@ namespace MICode.Interpreter.ArithmeticModule {
                 if (!tokens.Peek().GetType().Equals(typeof(Operator))) {
                     numbers.Push(tokens.Dequeue());
                 } else {
-                    double n1 = ((Operand) numbers.Pop()).GetValue();
-                    double n2 = ((Operand) numbers.Pop()).GetValue();
+                    dynamic n1 = ((Operand) numbers.Pop()).GetValue();
+                    dynamic n2 = ((Operand) numbers.Pop()).GetValue();
                     Operator op = (Operator) tokens.Dequeue();
-                    double o = op.PerformBinaryOperation(n2, n1);
+                    dynamic o = op.PerformBinaryOperation(n2, n1);
                     numbers.Push(Token.MakeToken(o.ToString()));
                 }
             }
