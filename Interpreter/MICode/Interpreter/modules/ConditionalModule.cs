@@ -18,11 +18,11 @@ namespace MICode.Interpreter {
 			int targetLine = int.Parse(m.Groups[3].Value);
 			if (targetLine - 1 < line) ranlines.Add(line, new LineSorter());
 			bool result = ArithmeticModule.ArithmeticManager.Evaluate(m.Groups[1].Value);
-			if (result) {
+			if (!result) {
 				Program.CommandQueue.Enqueue(() => Program.Line = targetLine - 1);
 				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 

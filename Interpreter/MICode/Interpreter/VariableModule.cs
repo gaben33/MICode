@@ -28,7 +28,7 @@ namespace MICode.Interpreter {
 						break;
 				}
 			} else {
-				m = Regex.Match(regex, @"([A-Za-z]+)\s?=(\s?([^;]+))?;");
+				m = Regex.Match(regex, @"([A-Za-z]+)\s?=[^=](\s?([^;]*))?;");
 				//Console.WriteLine(m.Success);
 				if(m.Success) {
 					string varName = m.Groups[1].Value;

@@ -1,5 +1,6 @@
-int x = 5;
-int y = 4;
-x = x + 1;
-x = x + y;
+int x = 3;
+if(x == 3, goto 4);
+print("x is equal to 3");
+if(x != 3, 6);
+print("x isn't equal to 3");
 print(x);
