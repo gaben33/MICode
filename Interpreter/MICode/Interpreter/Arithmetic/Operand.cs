@@ -10,6 +10,7 @@ namespace MICode.Interpreter.ArithmeticModule {
         dynamic value;
 
         public Operand(string input) {
+            if (input == "") return;
             if (bool.TryParse(input, out bool boolResult)) value = boolResult;
             else if (int.TryParse(input, out int intResult)) value = intResult;
             else if (float.TryParse(input, out float floatResult)) value = floatResult;
