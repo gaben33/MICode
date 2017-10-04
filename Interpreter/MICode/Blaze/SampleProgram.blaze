@@ -1,7 +1,0 @@
-﻿//this is a comment
-int x = 5;
-int y = 4;
-x++;
-x = x + y;
-//if(5 < 2, 8);
-print(x);

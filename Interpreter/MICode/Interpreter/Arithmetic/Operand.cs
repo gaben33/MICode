@@ -14,8 +14,11 @@ namespace MICode.Interpreter.ArithmeticModule {
             if (bool.TryParse(input, out bool boolResult)) value = boolResult;
             else if (int.TryParse(input, out int intResult)) value = intResult;
             else if (float.TryParse(input, out float floatResult)) value = floatResult;
-            else if(char.TryParse(input, out char charResult)) value = charResult;
-            else throw new NotImplementedException();
+            else if (char.TryParse(input, out char charResult)) value = charResult;
+            else {
+                Console.WriteLine(Program.Line);
+                throw new NotImplementedException();
+            }
         }
 
         public dynamic GetValue() {

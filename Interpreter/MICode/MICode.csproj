@@ -63,10 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Blaze\SampleProgram.blaze" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="burn.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Blaze\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,5 @@
 int cory = 4;
-cory++;
+cory = cory + 1;
 float jenna = 5.5;
 bool b = cory + 0.5 == jenna;
 print(cory + 2);
