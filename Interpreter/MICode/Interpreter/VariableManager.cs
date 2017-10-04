@@ -32,7 +32,7 @@ namespace MICode.Interpreter {
 
 		public static void SetValue (string variable, string value) {
 			Type t = VarTypes[variable];
-			dynamic val = parsers[t](ArithmeticModule.ArithmeticManager.Evaluate(value));
+			dynamic val = parsers[t](ArithmeticModule.ArithmeticManager.Evaluate(value).ToString());
 			VarValues[variable] = val;
 		}
 

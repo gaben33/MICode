@@ -16,7 +16,7 @@ namespace MICode.Interpreter {
 			new GotoModule()
 		};
 
-		private static int line = 0;
+		public static int Line { get; set; } = 0;
 		#endregion
 
 		[STAThread]
@@ -30,17 +30,17 @@ namespace MICode.Interpreter {
 					args = new string[] { ofd.FileName };
 				} else return;
 			}
-			string newPath = args[0].Replace(".blaze", ".pblaze");
+			string newPath = args[0].Replace(".blaze", ".burn");
 			Preprocessor.Preprocessor.Fix(args[0], newPath);
 			List<string> lines = File.ReadAllLines(newPath).ToList();
-			while (running && line < lines.Count) {
+			while (running && Line < lines.Count) {
 				while (CommandQueue.Count > 0) CommandQueue.Dequeue()();
 				for (int i = 0; i < Modules.Length; i++) {
-					bool forceContinue = Modules[i].Transform(lines[line]);
+					bool forceContinue = Modules[i].Transform(lines[Line]);
 					while (CommandQueue.Count > 0) CommandQueue.Dequeue()();
 					if (forceContinue) break;
 				}
-				line++;
+				Line++;
 			}
 			while (true) ;
 		}
@@ -48,6 +48,5 @@ namespace MICode.Interpreter {
 		public static Queue<Action> CommandQueue = new Queue<Action>();
 
 		public static void Stop() => running = false;
-		public static void SetLine(int lineNumber) => line = lineNumber;
 	}
 }

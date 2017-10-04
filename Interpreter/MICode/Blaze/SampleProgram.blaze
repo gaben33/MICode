@@ -1,4 +1,7 @@
 ﻿//this is a comment
 int x = 5;
-x = x + 2;
+int y = 4;
+x++;
+x = x + y;
+//if(5 < 2, 8);
 print(x);

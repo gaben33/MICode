@@ -15,7 +15,18 @@ namespace MICode.Interpreter {
 				dynamic initialVal = null;
                 dynamic val = ArithmeticModule.ArithmeticManager.Evaluate(m.Groups[4].Value);
 				if (hasInitialVal) initialVal = VariableManager.parsers[t](val.ToString());
-				VariableManager.CreateVariable<dynamic>(m.Groups[2].Value, initialVal);
+				switch(m.Groups[1].Value) {
+					case "int": VariableManager.CreateVariable<int>(m.Groups[2].Value, initialVal);
+						break;
+					case "char": VariableManager.CreateVariable<char>(m.Groups[2].Value, initialVal);
+						break;
+					case "float": VariableManager.CreateVariable<float>(m.Groups[2].Value, initialVal);
+						break;
+					case "bool": VariableManager.CreateVariable<bool>(m.Groups[2].Value, initialVal);
+						break;
+					default: VariableManager.CreateVariable<dynamic>(m.Groups[2].Value, initialVal);
+						break;
+				}
 			} else {
 				m = Regex.Match(regex, @"([A-Za-z]+)\s?=(\s?([^;]+))?;");
 				//Console.WriteLine(m.Success);

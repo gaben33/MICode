@@ -13,6 +13,7 @@ namespace MICode.Preprocessor {
 			string template = File.ReadAllText(path);
 			EraseComments(ref template);
 			DoDefines(ref template);
+			DoIncrement(ref template);
 			
 			using (StreamWriter swr = File.CreateText(output)) {
 				swr.Write(template);
@@ -34,6 +35,10 @@ namespace MICode.Preprocessor {
 				}
 			}
 			text = Regex.Replace(text, "#DEFINE .+", "");
+		}
+
+		static void DoIncrement (ref string text) {
+			text = Regex.Replace(text, @"([a-zA-Z]+)(\+|-){2}", @"$1 = $1 $2 1");
 		}
 	}
 }

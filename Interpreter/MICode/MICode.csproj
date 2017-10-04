@@ -51,10 +51,12 @@
     <Compile Include="Interpreter\Arithmetic\Operator.cs" />
     <Compile Include="Interpreter\Arithmetic\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
+    <Compile Include="Interpreter\modules\ConditionalModule.cs" />
     <Compile Include="Interpreter\modules\GotoModule.cs" />
     <Compile Include="Interpreter\modules\PrintModule.cs" />
     <Compile Include="Interpreter\Program.cs" />
     <Compile Include="Interpreter\VariableModule.cs" />
+    <Compile Include="Preprocessor\ConditionalFixer.cs" />
     <Compile Include="Preprocessor\Preprocessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interpreter\VariableManager.cs" />

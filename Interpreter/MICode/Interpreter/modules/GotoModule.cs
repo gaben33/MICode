@@ -9,7 +9,7 @@ namespace MICode.Interpreter {
 	public class GotoModule : ModuleBase {
 		public override bool Transform(string regex) {
 			Match m = Regex.Match(regex, @"goto (\d+)");
-			if(m.Success) Program.CommandQueue.Enqueue(() => Program.SetLine(int.Parse(m.Groups[1].Value) - 2));
+			if(m.Success) Program.CommandQueue.Enqueue(() => Program.Line = int.Parse(m.Groups[1].Value) - 2);
 			return true;
 		}
 	}
