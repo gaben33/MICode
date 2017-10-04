@@ -1,0 +1,4 @@
+int cory = 4;
+cory = cory + 1;
+bool b = 5 < 3 * cory;
+print(b);

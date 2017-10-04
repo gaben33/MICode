@@ -34,7 +34,10 @@ namespace MICode.Interpreter {
 					string varName = m.Groups[1].Value;
 					string varValue = m.Groups[3].Value;
                     //Console.WriteLine($"Value: {varValue}");
-					VariableManager.SetValue(varName, varValue);
+                    if (VariableManager.HasVariable(varName, out dynamic val)) {
+                        VariableManager.SetValue(varName, varValue);
+                    } else throw new NotImplementedException();
+					
 				}
 			}
 

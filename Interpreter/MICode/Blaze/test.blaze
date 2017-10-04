@@ -1,11 +1,20 @@
 int cory = ( 5 - 8 ) ^ ( 2 * 2 );
 print(cory);
-bool x = true;
-bool y = false;
+// ints work fully
+
+float f = 0.4 ^ 2;
+print(f);
+// floats work fully
+
+char boii = c;
+print(boii);
+// chars currently dont require parentheses
+
+bool x = 4 != 2;
+bool y = 4 == 2;
 bool z = true;
-print(x is true y is false z is true);
-bool a = x && y;
+bool a = cory >= cory + 1;
 bool b = y || z;
-bool c = x && z;
-bool d = cory < 80; // returns false
-print(d);
+bool c = ( false || true ) && false;
+print(c);
+// boolean logic works, parentheses and booleans dont and booleans mixed with arithmetic don't either, also no ! operator

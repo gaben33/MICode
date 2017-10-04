@@ -12,16 +12,17 @@ namespace MICode.Interpreter.ArithmeticModule {
         public static readonly Operator Times = new Operator("*", 3, Association.Left, (i1, i2) => i1 * i2);
         public static readonly Operator Divide = new Operator("/", 3, Association.Left, (i1, i2) => i1 / i2);
         public static readonly Operator Modulus = new Operator("%", 3, Association.Left, (i1, i2) => i1 % i2);
-        public static readonly Operator Power = new Operator("^", 4, Association.Right, (i1, i2) => (int)Math.Pow(i1, i2));
+        public static readonly Operator Power = new Operator("^", 4, Association.Right, (i1, i2) => Math.Pow(i1, i2));
         public static readonly Operator LeftParentheses = new Operator("(", 0, Association.None, null);
         public static readonly Operator RightParentheses = new Operator(")", 0, Association.None, null);
-        public static readonly Operator LogicalEquals = new Operator("==", (i1, i2) => i1 == i2);
-        public static readonly Operator LogicalAnd = new Operator("&&", (i1, i2) => i1 && i2);
-        public static readonly Operator LogicalOr = new Operator("||", (i1, i2) => i1 || i2);
-        public static readonly Operator LogicalGreaterThan = new Operator(">", (i1, i2) => i1 > i2);
-        public static readonly Operator LogicalLessThan = new Operator("<", (i1, i2) => i1 < i2);
-        public static readonly Operator LogicalGreaterOrEqualTo = new Operator(">=", (i1, i2) => i1 >= i2);
-        public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", (i1, i2) => i1 <= i2);
+        public static readonly Operator LogicalEquals = new Operator("==", 1, Association.Left, (i1, i2) => i1 == i2);
+        public static readonly Operator LogicalNotEquals = new Operator("!=" , 1, Association.Left, (i1, i2) => i1 != i2);
+        public static readonly Operator LogicalAnd = new Operator("&&", 1, Association.Left, (i1, i2) => i1 && i2);
+        public static readonly Operator LogicalOr = new Operator("||", 1, Association.Left, (i1, i2) => i1 || i2);
+        public static readonly Operator LogicalGreaterThan = new Operator(">", 1, Association.Left, (i1, i2) => i1 > i2);
+        public static readonly Operator LogicalLessThan = new Operator("<", 1, Association.Left, (i1, i2) => i1 < i2);
+        public static readonly Operator LogicalGreaterOrEqualTo = new Operator(">=", 1, Association.Left, (i1, i2) => i1 >= i2);
+        public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", 1, Association.Left, (i1, i2) => i1 <= i2);
 
         public static IEnumerable<Operator> Values {
             get {
@@ -34,6 +35,7 @@ namespace MICode.Interpreter.ArithmeticModule {
                 yield return LeftParentheses;
                 yield return RightParentheses;
                 yield return LogicalEquals;
+                yield return LogicalNotEquals;
                 yield return LogicalAnd;
                 yield return LogicalOr;
                 yield return LogicalGreaterThan;
