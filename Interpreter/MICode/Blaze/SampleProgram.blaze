@@ -1,7 +1,6 @@
-﻿//this is a comment
-int x = 5;
-int y = 4;
-x++;
-x = x + y;
-//if(5 < 2, 8);
+﻿int x = 3;
+if(x == 3, goto 4);//if x == 3, do next line.  Otherwise go to the next conditional
+print("x is equal to 3");
+if(x != 3, 6);
+print("x isn't equal to 3");
 print(x);

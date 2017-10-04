@@ -11,12 +11,14 @@ namespace MICode.Interpreter {
 		#region variables
 		private static bool running = true;
 		private static ModuleBase[] Modules = new ModuleBase[] {
+			new CommentModule(),
 			new VariableModule(),
 			new PrintModule(),
 			new GotoModule()
 		};
 
 		public static int Line { get; set; } = 0;
+		public static Dictionary<string, int> lineLabels = new Dictionary<string, int>();
 		#endregion
 
 		[STAThread]

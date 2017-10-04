@@ -14,6 +14,8 @@ namespace MICode.Preprocessor {
 			EraseComments(ref template);
 			DoDefines(ref template);
 			DoIncrement(ref template);
+			BuildLabels(ref template);
+			
 			
 			using (StreamWriter swr = File.CreateText(output)) {
 				swr.Write(template);
@@ -21,8 +23,8 @@ namespace MICode.Preprocessor {
 		}
 
 		static void EraseComments (ref string text) {
-			text = Regex.Replace(text, @"\/\/.*\n", "");//line comments
-			text = Regex.Replace(text, @"\/\*(.|\n)*\*\/", "");//block comments
+			text = Regex.Replace(text, @"(.+)\/\/.*", "$1");//line comments
+			//text = Regex.Replace(text, @"\/\*(.|\n)*\*\/", "");//block comments
 		}
 
 		static void DoDefines (ref string text) {
@@ -39,6 +41,13 @@ namespace MICode.Preprocessor {
 
 		static void DoIncrement (ref string text) {
 			text = Regex.Replace(text, @"([a-zA-Z]+)(\+|-){2}", @"$1 = $1 $2 1");
+		}
+
+		static void BuildLabels (ref string text) {
+			MatchCollection mc = Regex.Matches(text, @"label\s?([^\s;]+);");
+			foreach(Match m in mc) {
+				Interpreter.Program.lineLabels.Add(m.Groups[1].Value, 0);
+			}
 		}
 	}
 }

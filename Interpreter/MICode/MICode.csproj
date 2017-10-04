@@ -51,6 +51,7 @@
     <Compile Include="Interpreter\Arithmetic\Operator.cs" />
     <Compile Include="Interpreter\Arithmetic\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
+    <Compile Include="Interpreter\modules\CommentModule.cs" />
     <Compile Include="Interpreter\modules\ConditionalModule.cs" />
     <Compile Include="Interpreter\modules\GotoModule.cs" />
     <Compile Include="Interpreter\modules\PrintModule.cs" />
