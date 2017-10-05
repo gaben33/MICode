@@ -10,7 +10,7 @@ namespace MICode.Interpreter {
 		public override bool Transform(string regex) {
 			Match m = Regex.Match(regex, @"print\((.*)\);");
 			if(m.Success) {
-                dynamic val = ArithmeticModule.ArithmeticManager.Evaluate(m.Groups[1].Value);
+                dynamic val = Arithmetic.ArithmeticEvaluator.Evaluate(m.Groups[1].Value);
                 Console.WriteLine(val);
 			}
 			return false;

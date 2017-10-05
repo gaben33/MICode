@@ -1,8 +1,8 @@
-int cory = ( 5 - 8 ) ^ ( 2 * 2 );
+int cory = (5-8)^(2*2);
 print(cory);
-// ints work fully
+// ints work but negative assignments dont
 
-float f = 0.4 ^ 2;
+float f = 0.4^2;
 print(f);
 // floats work fully
 
@@ -10,11 +10,19 @@ char boii = c;
 print(boii);
 // chars currently dont require parentheses
 
-bool x = 4 != 2;
+bool x = 4!=2;
 bool y = 4 == 2;
 bool z = true;
 bool a = cory >= cory + 1;
-bool b = y || z;
-bool c = ( false || true ) && false;
-print(c);
-// boolean logic works, parentheses and booleans dont and booleans mixed with arithmetic don't either, also no ! operator
+bool b = true && (false||true);
+bool c = (false||true) && false;
+bool compound = true && (false || false) && true;
+print(compound);
+// booleans work no ! operator
+
+//TODO
+// add negative and ! operator
+// increment decrement operator
+// add support for char and string concatenation
+
+//call arithmetic on right side of assignment or for each individual parameter, also inside conditionals such as if and loops

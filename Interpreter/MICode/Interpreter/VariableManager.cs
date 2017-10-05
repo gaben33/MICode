@@ -31,7 +31,7 @@ namespace MICode.Interpreter {
 		public static dynamic GetValue(string variable) => VarValues[variable];
 
 		public static void SetValue (string variable, string value) {
-            dynamic val = (ArithmeticModule.ArithmeticManager.Evaluate(value));
+            dynamic val = (Arithmetic.ArithmeticEvaluator.Evaluate(value));
             VarValues[variable] = val;
 		}
 

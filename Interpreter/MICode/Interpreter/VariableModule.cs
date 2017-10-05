@@ -13,7 +13,7 @@ namespace MICode.Interpreter {
 				bool hasInitialVal = m.Groups[4].Length > 0;
 				Type t = ToType(m.Groups[1].Value);
 				dynamic initialVal = null;
-                dynamic val = ArithmeticModule.ArithmeticManager.Evaluate(m.Groups[4].Value);
+                dynamic val = Arithmetic.ArithmeticEvaluator.Evaluate(m.Groups[4].Value);
 				if (hasInitialVal) initialVal = VariableManager.parsers[t](val.ToString());
 				switch(m.Groups[1].Value) {
 					case "int": VariableManager.CreateVariable<int>(m.Groups[2].Value, initialVal);

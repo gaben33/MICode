@@ -46,10 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interpreter\Arithmetic\ArithmeticModule.cs" />
-    <Compile Include="Interpreter\Arithmetic\Operand.cs" />
-    <Compile Include="Interpreter\Arithmetic\Operator.cs" />
-    <Compile Include="Interpreter\Arithmetic\Token.cs" />
+    <Compile Include="Interpreter\Arithmetic\ArithmeticEvaluator.cs" />
+    <Compile Include="Interpreter\Arithmetic\Tokens\Operand.cs" />
+    <Compile Include="Interpreter\Arithmetic\Tokens\Operator.cs" />
+    <Compile Include="Interpreter\Arithmetic\Tokens\Operators.cs" />
+    <Compile Include="Interpreter\Arithmetic\Tokens\Token.cs" />
     <Compile Include="Interpreter\ModuleBase.cs" />
     <Compile Include="Interpreter\modules\CommentModule.cs" />
     <Compile Include="Interpreter\modules\ConditionalModule.cs" />

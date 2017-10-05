@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MICode.Interpreter.ArithmeticModule {
-    class Token {
+namespace MICode.Interpreter.Arithmetic {
+    public class Token {
 
         public static Token MakeToken(string input) {
             if (Operator.IsOperator(input, out Operator op)) return op;
