@@ -10,9 +10,8 @@ namespace MICode.Interpreter.Arithmetic {
         public static Token MakeToken(string input) {
             dynamic val;
             if (Operator.IsOperator(input, out Operator op)) return op;
-            else if (VariableManager.HasVariable(input, out val) || (input[0] == '-' && VariableManager.HasVariable(input.Substring(1), out val))) {
-                if (input[0] != '-') return new Operand(val.ToString());
-                else return new Operand(val.ToString(), true);
+            else if (VariableManager.HasVariable(input, out val)) {
+                return new Operand(val.ToString());
             } else return new Operand(input);
         }
     }

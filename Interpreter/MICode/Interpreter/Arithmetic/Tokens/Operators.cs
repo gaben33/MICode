@@ -8,6 +8,7 @@ namespace MICode.Interpreter.Arithmetic {
     public partial class Operator {
 
         public static readonly Operator Plus = new Operator("+", 2, Side.Left, (i1, i2) => i1 + i2);
+        public static readonly Operator Minus = new Operator("-", 2, Side.Left, (i1, i2) => i1 - i2);
         public static readonly Operator Times = new Operator("*", 3, Side.Left, (i1, i2) => i1 * i2);
         public static readonly Operator Divide = new Operator("/", 3, Side.Left, (i1, i2) => i1 / i2);
         public static readonly Operator Modulus = new Operator("%", 3, Side.Left, (i1, i2) => i1 % i2);
@@ -27,6 +28,7 @@ namespace MICode.Interpreter.Arithmetic {
         public static IEnumerable<Operator> Values {
             get {
                 yield return Plus;
+                yield return Minus;
                 yield return Times;
                 yield return Divide;
                 yield return Modulus;
@@ -41,6 +43,7 @@ namespace MICode.Interpreter.Arithmetic {
                 yield return LogicalLessThan;
                 yield return LogicalGreaterOrEqualTo;
                 yield return LogicalLessOrEqualTo;
+                yield return Negative;
             }
         }
     }

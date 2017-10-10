@@ -18,14 +18,6 @@ namespace MICode.Interpreter.Arithmetic {
 			else throw new NotImplementedException("Cannot identify type at line: " + (Program.Line+1));
         }
 
-        public Operand(string input, bool reverse) {
-            if (bool.TryParse(input, out bool boolResult)) Value = !boolResult;
-            else if (int.TryParse(input, out int intResult)) Value = -1*intResult;
-            else if (float.TryParse(input, out float floatResult)) Value = -1*floatResult;
-            else if (char.TryParse(input, out char charResult)) Value = charResult;
-            else throw new NotImplementedException("Cannot identify type at line: " + (Program.Line + 1));
-        }
-
         public override string ToString() => Value.ToString();
     }
 }
