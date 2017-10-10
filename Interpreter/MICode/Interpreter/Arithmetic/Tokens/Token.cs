@@ -14,6 +14,10 @@ namespace MICode.Interpreter.Arithmetic {
                 return new Operand(val.ToString());
             } else return new Operand(input);
         }
+
+        public static bool IsUnary(int index, List<string> tokens) {
+            return index == 0 || tokens[index - 1] == "(" || (Operator.IsOperator(tokens[index - 1])) && tokens[index - 1] != ")";
+        }
     }
 
     

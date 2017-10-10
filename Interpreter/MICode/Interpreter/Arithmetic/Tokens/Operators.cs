@@ -24,6 +24,7 @@ namespace MICode.Interpreter.Arithmetic {
         public static readonly Operator LogicalGreaterOrEqualTo = new Operator(">=", 1, Side.Left, (i1, i2) => i1 >= i2);
         public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", 1, Side.Left, (i1, i2) => i1 <= i2);
         public static readonly Operator Negative = new Operator("–", 5, Side.Left, (i) => -i);
+        public static readonly Operator Not = new Operator("!", 2, Side.Left, (i) => !i);
 
         public static IEnumerable<Operator> Values {
             get {
@@ -44,6 +45,7 @@ namespace MICode.Interpreter.Arithmetic {
                 yield return LogicalGreaterOrEqualTo;
                 yield return LogicalLessOrEqualTo;
                 yield return Negative;
+                yield return Not;
             }
         }
     }
