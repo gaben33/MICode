@@ -8,13 +8,12 @@ namespace MICode.Interpreter.Arithmetic {
     public partial class Operator {
 
         public static readonly Operator Plus = new Operator("+", 2, Side.Left, (i1, i2) => i1 + i2);
-        public static readonly Operator Minus = new Operator("-", 2, Side.Left, (i1, i2) => i1 - i2);
         public static readonly Operator Times = new Operator("*", 3, Side.Left, (i1, i2) => i1 * i2);
         public static readonly Operator Divide = new Operator("/", 3, Side.Left, (i1, i2) => i1 / i2);
         public static readonly Operator Modulus = new Operator("%", 3, Side.Left, (i1, i2) => i1 % i2);
         public static readonly Operator Power = new Operator("^", 4, Side.Right, (i1, i2) => Math.Pow(i1, i2));
-        public static readonly Operator LeftParentheses = new Operator("(", 0, Side.None, null);
-        public static readonly Operator RightParentheses = new Operator(")", 0, Side.None, null);
+        public static readonly Operator LeftParentheses = new Operator("(", 0, Side.None, (i) => i);
+        public static readonly Operator RightParentheses = new Operator(")", 0, Side.None, (i) => i);
         public static readonly Operator LogicalEquals = new Operator("==", 1, Side.Left, (i1, i2) => i1 == i2);
         public static readonly Operator LogicalNotEquals = new Operator("!=", 1, Side.Left, (i1, i2) => i1 != i2);
         public static readonly Operator LogicalAnd = new Operator("&&", 1, Side.None, (i1, i2) => i1 && i2);
@@ -23,11 +22,11 @@ namespace MICode.Interpreter.Arithmetic {
         public static readonly Operator LogicalLessThan = new Operator("<", 1, Side.Left, (i1, i2) => i1 < i2);
         public static readonly Operator LogicalGreaterOrEqualTo = new Operator(">=", 1, Side.Left, (i1, i2) => i1 >= i2);
         public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", 1, Side.Left, (i1, i2) => i1 <= i2);
+        public static readonly Operator Negative = new Operator("–", 5, Side.Left, (i) => -i);
 
         public static IEnumerable<Operator> Values {
             get {
                 yield return Plus;
-                yield return Minus;
                 yield return Times;
                 yield return Divide;
                 yield return Modulus;

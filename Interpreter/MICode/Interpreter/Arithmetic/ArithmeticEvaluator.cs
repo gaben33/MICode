@@ -14,10 +14,22 @@ namespace MICode.Interpreter.Arithmetic {
         }
 
         private static Queue<Token> Tokenize(string input) {
-            string[] tokens = Regex.Split(input.Replace(" ", ""), @"(&{2}|\|{2}|={2}|!=|>=|<=|-|[+^*/%()<>])");
             Queue<Token> output = new Queue<Token>();
-            foreach (string t in tokens) {
-                if (t != "") output.Enqueue(Token.MakeToken(t));
+            string[] tokens = Regex.Split(input.Replace(" ", "").Replace("--", "+"), @"(&{2}|\|{2}|={2}|!=|>=|<=|[+^*/%()<>])");
+
+            for (int i = 0; i < tokens.Length; i++) {
+                string t = tokens[i];
+                if (t != "") {
+                    int count = t.Count(f => f == '-');
+                    if ((count > 0 && t[0] != '-') || (count > 1 && t[0] == '-')) {
+                        for (int j = 1; j < t.Length; j++) {
+                            if (t[j] == '-' && !Operator.IsOperator(t[j - 1].ToString())) {
+                                t = t.Insert(j, "+");
+                            }
+                        }
+                        foreach (Token tempToken in Tokenize(t)) output.Enqueue(tempToken);
+                    } else output.Enqueue(Token.MakeToken(t));
+                }
             }
             return output;
         }
@@ -63,15 +75,8 @@ namespace MICode.Interpreter.Arithmetic {
                 if (!tokens.Peek().GetType().Equals(typeof(Operator))) {
                     numbers.Push(tokens.Dequeue());
                 } else {
-                    dynamic n1 = ((Operand) numbers.Pop()).Value;
-                    dynamic n2 = ((Operand) numbers.Pop()).Value;
-                    Operator op = (Operator) tokens.Dequeue();
-                    try {
-                        dynamic o = op.PerformBinaryOperation(n2, n1);
-                        numbers.Push(Token.MakeToken(o.ToString()));
-                    } catch (Exception) {
-                        throw new FormatException("Mixed Types at line: " + (Program.Line + 1));
-                    }
+                    numbers = Operator.PerformOperation(numbers, (Operator)tokens.Dequeue(), out dynamic result);
+                    numbers.Push(Token.MakeToken(result.ToString()));
                 }
             }
             return numbers.Peek();
