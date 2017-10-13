@@ -13,69 +13,57 @@ namespace MICode.Interpreter.Arithmetic {
             return EvaluatePostFix(ToPostFix(Tokenize(input)));
         }
 
-        private static Queue<Token> Tokenize(string input) {
-            string[] tokens = Regex.Split(input.Replace(" ", ""), @"(&{2}|\|{2}|={2}|!=|>=|<=|-|[+^*/%()<>])");
-            Queue<Token> output = new Queue<Token>();
-            foreach (string t in tokens) {
-                if (t != "") output.Enqueue(Token.MakeToken(t));
-            }
+        private static List<string> Tokenize(string input) {
+            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&{2}|\|{2}|={2}|!=|>=|<=|-|\+=|[!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
+            output.RemoveAll(i => i == ""); // TODO split the string such that no empty space tokens are created in the first place
             return output;
         }
 
-        private static Queue<Token> ToPostFix(Queue<Token> tokens) {
-            Queue<Token> output = new Queue<Token>();
-            Stack<Operator> operators = new Stack<Operator>();
+        private static List<Token> ToPostFix(List<string> tokens) {
+            List<Token> output = new List<Token>();
+            Stack<Token> operators = new Stack<Token>(); // TODO rename operators because it can also hold ( which isn't an operator
 
-            foreach (Token token in tokens) {
-                if (!token.GetType().Equals(typeof(Operator))) {
-                    output.Enqueue(token);
-                } else {
-                    Operator op = (Operator) token;
-                    if(op.Name != "(" || op.Name != ")") {
-                        while (operators.Count > 0 && operators.Peek().Precedence >= op.Precedence && operators.Peek().Association == Operator.Side.Left) {
-                            output.Enqueue(operators.Pop());
-                        }
-                        operators.Push(op);
-                    } else if(op.Name == "(") {
-                        operators.Push(op);
-                    } else if(op.Name == ")") {
-                        while(operators.Peek().Name != "(") {
-                            output.Enqueue(operators.Pop());
-                        }
-                        operators.Pop();
-                    }
+            for (int i = 0; i < tokens.Count; i++) {
+                Token token = Token.MakeToken(tokens[i]);
+                if (token is Operand) output.Add(token);
+                if (token is OpeningBracket) operators.Push(token);
+                if (token is ClosingBracket) {
+                    while (!(operators.Peek() is OpeningBracket))  output.Add(operators.Pop());
+                    operators.Pop();
+                }
+                if (token is Operator) {
+                    if (token.Name == "-" && Token.IsUnary(i, tokens)) token = Operator.Negative; // determines if binary minus or unary negative
+                    if (token.Name == "+" && Token.IsUnary(i, tokens)) continue; // filters out redundant +'s eg (x = +5)
+
+                    while (KeepPushingOperators(token, operators)) output.Add(operators.Pop());
+                    operators.Push(token);
                 }
             }
-
-            while(operators.Count > 0) {
-                if (operators.Peek().Name != "(" && operators.Peek().Name != ")") {
-                    output.Enqueue(operators.Pop());
-                } else operators.Pop();
+            while (operators.Count > 0) {
+                if (operators.Peek() is Operator) output.Add(operators.Pop());
+                else operators.Pop();
             }
-            
             return output;
         }
 
-        private static dynamic EvaluatePostFix(Queue<Token> tokens) {
+        private static dynamic EvaluatePostFix(List<Token> tokens) {
             Stack<Token> numbers = new Stack<Token>();
-            
-            while (tokens.Count > 0) {
-                if (!tokens.Peek().GetType().Equals(typeof(Operator))) {
-                    numbers.Push(tokens.Dequeue());
+
+            for(int i = 0; i < tokens.Count; i++) {
+                if (tokens[i] is Operand) {
+                    numbers.Push(tokens[i]);
                 } else {
-                    dynamic n1 = ((Operand) numbers.Pop()).Value;
-                    dynamic n2 = ((Operand) numbers.Pop()).Value;
-                    Operator op = (Operator) tokens.Dequeue();
-                    try {
-                        dynamic o = op.PerformBinaryOperation(n2, n1);
-                        numbers.Push(Token.MakeToken(o.ToString()));
-                    } catch (Exception) {
-                        throw new FormatException("Mixed Types at line: " + (Program.Line + 1));
-                    }
+                    numbers = Operator.PerformOperation(numbers, (Operator)tokens[i], out dynamic result);
+                    numbers.Push(Token.MakeToken(result.ToString()));
                 }
             }
             return numbers.Peek();
         }
+
+        private static bool KeepPushingOperators(Token op, Stack<Token> operators) {
+            if (operators.Count == 0) return false;
+            if (operators.Peek() is OpeningBracket) return false;
+            return ((Operator) operators.Peek()).Precedence >= ((Operator) op).Precedence && ((Operator) operators.Peek()).Association == Operator.Side.Left;
+        }
     }
 }
-
