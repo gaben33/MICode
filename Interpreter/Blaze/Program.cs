@@ -15,6 +15,7 @@ namespace Blaze.Interpreter {
 		public static Dictionary<string, Method> methods;
 		public static int Line { get; set; }
 		public static List<string> lines = new List<string>();
+		public static Method Method { get; private set; }//method enclosing instruction currently being executed
 		#endregion
 
 		[STAThread]
@@ -42,6 +43,13 @@ namespace Blaze.Interpreter {
 			lines = File.ReadAllLines(args[0]).ToList();
 			Preprocessor.Preprocessor.Fix(args[0], newPath);
 			return newPath;
+		}
+
+		//returns a reference to a variable given the current state of the heap and stack
+		public static Variable GetVariable (string name) {
+			if (heap.ContainsKey(name)) return heap[name];
+			foreach (StackFrame s in stack) if (s.Vars.ContainsKey(name)) return s.Vars[name];
+			return null;
 		}
 
 		public static void Interpret (Method method) {//interprets given method
