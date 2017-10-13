@@ -11,21 +11,23 @@ namespace Blaze.Preprocessor {
 		//preprocesses the string and puts the replacement at output
 		public static void Fix (string path, string output) {
 			string template = File.ReadAllText(path);
+			BuildLabels(ref template);
+			//do line changing changes after this point
 			EraseComments(ref template);
 			DoDefines(ref template);
-			DoIncrement(ref template);
-			UpperCaseMainMethod(ref template);
-			//after this point needs to be done after all line numbers have been changed
+			//DoIncrement(ref template);
+			DoMainMethodCase(ref template);
+			//do things that rely on post-line changes here
+
 			
-			BuildLabels(ref template);
 			using (StreamWriter swr = File.CreateText(output)) {
 				swr.Write(template);
 			}
 		}
 
 		static void EraseComments (ref string text) {
-			text = Regex.Replace(text, @"(.+)\/\/.*", "$1");//line comments
-			//text = Regex.Replace(text, @"\/\*(.|\n)*\*\/", "");//block comments
+			text = Regex.Replace(text, @"(.+)?\/\/.*", "$1");//line comments
+			text = Regex.Replace(text, @"\/\*(.|\n)*\*\/", "");//block comments
 		}
 
 		static void DoDefines (ref string text) {
@@ -47,27 +49,31 @@ namespace Blaze.Preprocessor {
 		static void BuildLabels (ref string text) {
 			//we need to create labels for goto numbers
 			Regex r = new Regex(@"goto\s(\d+)");
-			List<string> lines = Interpreter.Program.lines.ToList();
-			int labelCount = 0;
-			List<int> addedLines = new List<int>();
+			List<string> lines = text.Split('\n').ToList();
+			Dictionary<int, string> newLines = new Dictionary<int, string>();
+			List<int> locations = new List<int>();
 			for (int i = 0; i < lines.Count; i++) {
 				string s = lines[i];
 				Match m = r.Match(s);
 				if (m.Success) {
 					int gotoLine = int.Parse(m.Groups[1].Value) - 1;
-					addedLines.Add(gotoLine);
-					int offset = addedLines.Count(l => l < gotoLine);
-					gotoLine += offset;
-					if (gotoLine < i) i++;//if adding a line before current marker, go down a line
-					string name = "lbl" + labelCount;
-					labelCount++;
-					lines[i] = r.Replace(s, @"goto " + name);
-					lines.Insert(gotoLine, "label " + name);
+					string name = "line_" + (gotoLine + 1);
+					newLines.Add(gotoLine, $"\tlabel {name};\n\r");
+					if (!locations.Contains(gotoLine)) {
+						locations.Add(gotoLine);
+						lines[i] = r.Replace(s, @"goto " + name);
+					}
 				}
 			}
+			locations.Sort();
+			//locations.Reverse();
+			for(int i = locations.Count - 1; i >= 0; i--) {
+				lines.Insert(locations[i], newLines[locations[i]]);
+			}
+			text = string.Join("\n", lines);
 		}
 
-		static void UpperCaseMainMethod (ref string text) {
+		static void DoMainMethodCase (ref string text) {
 			text = Regex.Replace(text, @"(void|int|char|bool|string)\smain", @"$1 Main");
 		}
 	}

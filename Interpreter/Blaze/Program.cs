@@ -14,12 +14,12 @@ namespace Blaze.Interpreter {
 		public static Stack<StackFrame> stack = new Stack<StackFrame>();
 		public static Dictionary<string, Method> methods;
 		public static int Line { get; set; }
-		public static string[] lines;
+		public static List<string> lines = new List<string>();
 		#endregion
 
+		[STAThread]
 		public static void Main(string[] args) {
-			lines = Open(args, out string path);
-			Preprocessor.Preprocessor.Fix(args[0], path);
+			string path = Open(ref args);
 			//build method dictionary after preprocessing, so that line counts are corrected, and main method is fixed
 			methods = MethodBuilder.CreateDictionary(args);
 			StackFrame root = new StackFrame(0);
@@ -28,7 +28,7 @@ namespace Blaze.Interpreter {
 			Interpret(methods["Main"]);
 		}
 
-		private static string[] Open (string[] args, out string path) {
+		private static string Open (ref string[] args) {
 			if (args.Count() == 0) {
 				OpenFileDialog ofd = new OpenFileDialog() {
 					InitialDirectory = "c:\\",
@@ -38,10 +38,10 @@ namespace Blaze.Interpreter {
 					args = new string[] { ofd.FileName };
 				}
 			}
-			string newPath = path = args[0].Replace(".blaze", ".burn");
-			//Preprocessor.Preprocessor.Fix(args[0], newPath);
-			List<string> lines = File.ReadAllLines(newPath).ToList();
-			return lines.ToArray();
+			string newPath = args[0].Replace(".blaze", ".burn");
+			lines = File.ReadAllLines(args[0]).ToList();
+			Preprocessor.Preprocessor.Fix(args[0], newPath);
+			return newPath;
 		}
 
 		public static void Interpret (Method method) {//interprets given method

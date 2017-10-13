@@ -10,6 +10,10 @@ namespace Blaze.Interpreter {
 	}
 
 	public abstract class Instruction : IExecutable {
+		public Method EnclosingMethod { get; private set; }
+
+		public Instruction(Method enclosingMethod) => EnclosingMethod = enclosingMethod;
+
 		public abstract void Execute();
 	}
 
@@ -26,9 +30,5 @@ namespace Blaze.Interpreter {
 			for (int i = 0; i < Instructions.Length; i++) Instructions[i].Execute();
 		}
 
-	}
-
-	public abstract class StackBuilder {
-		public abstract StackFrame BuildFrame();
 	}
 }
