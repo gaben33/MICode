@@ -8,11 +8,12 @@ namespace MICode.Interpreter.Arithmetic {
     public partial class Operator : Token {
 
         public enum Side { Left, Right, None };
-        public string Name { get; private set; }
         public int Precedence { get; private set; }
         public Side Association { get; private set; }
         public Func<dynamic, dynamic, dynamic> BinaryOperation { get; private set; }
         public Func<dynamic, dynamic> UnaryOperation { get; private set; }
+        public Func<string, dynamic> AssignmentOperation { get; private set; }
+        
 
         private Operator(string name, int precedence, Side association, Func<dynamic, dynamic, dynamic> function) {
             Name = name;
@@ -28,6 +29,10 @@ namespace MICode.Interpreter.Arithmetic {
 
         private Operator(string name, int precedence, Side association, Func<dynamic, dynamic> function) {
             Name = name;  Precedence = precedence; Association = association; UnaryOperation = function;
+        }
+
+        private Operator(string name,  Func<string, dynamic> function) {
+            Name = name; AssignmentOperation = function;
         }
 
         public static bool IsOperator(string input, out Operator op) {

@@ -16,7 +16,7 @@ bool z = true;
 bool a = cory >= cory + 1;
 bool b = true && (false||true);
 bool c = (false||true) && false;
-bool compound = true && (false || false) && true;
+bool compound = true && (false || true) && true;
 print(compound);
 // booleans work
 

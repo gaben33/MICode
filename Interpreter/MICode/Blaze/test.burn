@@ -1,6 +1,6 @@
 int cory = (5-8)^(2*2);
 print(cory);
-// ints work but negative assignments dont
+// ints work 
 
 float f = 0.4^2;
 print(f);
@@ -8,7 +8,7 @@ print(f);
 
 char boii = c;
 print(boii);
-// chars currently dont require parentheses
+// chars currently dont require quotes
 
 bool x = 4!=2;
 bool y = 4 == 2;
@@ -16,12 +16,11 @@ bool z = true;
 bool a = cory >= cory + 1;
 bool b = true && (false||true);
 bool c = (false||true) && false;
-bool compound = true && (false || false) && true;
+bool compound = true && (false || true) && true;
 print(compound);
-// booleans work no ! operator
+// booleans work
 
 //TODO
-// add negative and ! operator
 // increment decrement operator
 // add support for char and string concatenation
 

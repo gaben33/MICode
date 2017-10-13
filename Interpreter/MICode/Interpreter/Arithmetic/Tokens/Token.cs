@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 namespace MICode.Interpreter.Arithmetic {
     public class Token {
 
+        public string Name { get; protected set; }
+
         public static Token MakeToken(string input) {
-            dynamic val;
+            if (input == "(") return OpeningBracket.LeftParentheses;
+            if (input == ")") return ClosingBracket.RightParentheses;
             if (Operator.IsOperator(input, out Operator op)) return op;
-            else if (VariableManager.HasVariable(input, out val)) {
-                return new Operand(val.ToString());
-            } else return new Operand(input);
+            //if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val.ToString());
+            return new Operand(input);
         }
 
         public static bool IsUnary(int index, List<string> tokens) {
-            return index == 0 || tokens[index - 1] == "(" || (Operator.IsOperator(tokens[index - 1])) && tokens[index - 1] != ")";
+            return index == 0 || tokens[index - 1] == "(" || (Operator.IsOperator(tokens[index - 1]));
         }
     }
 
