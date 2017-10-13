@@ -53,16 +53,15 @@ namespace MICode.Interpreter.Arithmetic {
                 if (tokens[i] is Operand) {
                     numbers.Push(tokens[i]);
                 } else {
-                    numbers = Operator.PerformOperation(numbers, (Operator)tokens[i], out dynamic result);
-                    numbers.Push(Token.MakeToken(result.ToString()));
+                    Operand result = Operator.PerformOperation(ref numbers, (Operator) tokens[i]);
+                    numbers.Push(result);
                 }
             }
             return numbers.Peek();
         }
 
         private static bool KeepPushingOperators(Token op, Stack<Token> operators) {
-            if (operators.Count == 0) return false;
-            if (operators.Peek() is OpeningBracket) return false;
+            if (operators.Count == 0 || operators.Peek() is OpeningBracket) return false;
             return ((Operator) operators.Peek()).Precedence >= ((Operator) op).Precedence && ((Operator) operators.Peek()).Association == Operator.Side.Left;
         }
     }

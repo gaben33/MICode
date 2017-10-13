@@ -23,8 +23,8 @@ namespace MICode.Interpreter.Arithmetic {
         public static readonly Operator LogicalLessOrEqualTo = new Operator("<=", 1, Side.Left, (i1, i2) => i1 <= i2);
         public static readonly Operator Negative = new Operator("–", 5, Side.Left, (i) => -i);
         public static readonly Operator Not = new Operator("!", 2, Side.Left, (i) => !i);
-        public static readonly Operator AssignmentEquals = new Operator("=", (i1, i2) => VariableManager.SetValue(i1, i2)); //TODO finish
-        public static readonly Operator PlusEquals = new Operator("+=", (i1, i2) => VariableManager.SetValue(i1, VariableManager.ToFaceValue(i1)+i2)); //TODO finish
+        public static readonly Operator AssignmentEquals = new Operator("=", 0, Side.None, (i1, i2) => VariableManager.SetValue(i1, i2)); //TODO finish
+        public static readonly Operator PlusEquals = new Operator("+=", 0, Side.None, (i1, i2) => VariableManager.SetValue(i1, VariableManager.ToFaceValue(i1)+i2)); //TODO finish
 
         public static IEnumerable<Operator> Values {
             get {

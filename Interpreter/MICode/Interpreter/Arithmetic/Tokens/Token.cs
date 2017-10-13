@@ -13,7 +13,6 @@ namespace MICode.Interpreter.Arithmetic {
             if (input == "(") return OpeningBracket.LeftParentheses;
             if (input == ")") return ClosingBracket.RightParentheses;
             if (Operator.IsOperator(input, out Operator op)) return op;
-            //if (VariableManager.HasVariable(input, out dynamic val)) return new Operand(val.ToString());
             return new Operand(input);
         }
 

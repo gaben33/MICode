@@ -13,7 +13,7 @@ namespace MICode.Interpreter.Arithmetic {
         public Func<dynamic, dynamic, dynamic> BinaryOperation { get; private set; }
         public Func<dynamic, dynamic> UnaryOperation { get; private set; }
         public Func<string, dynamic> AssignmentOperation { get; private set; }
-        
+
 
         private Operator(string name, int precedence, Side association, Func<dynamic, dynamic, dynamic> function) {
             Name = name;
@@ -22,17 +22,8 @@ namespace MICode.Interpreter.Arithmetic {
             BinaryOperation = function;
         }
 
-        private Operator(string name, Func<dynamic, dynamic, dynamic> function) {
-            Name = name;
-            BinaryOperation = function;
-        }
-
         private Operator(string name, int precedence, Side association, Func<dynamic, dynamic> function) {
-            Name = name;  Precedence = precedence; Association = association; UnaryOperation = function;
-        }
-
-        private Operator(string name,  Func<string, dynamic> function) {
-            Name = name; AssignmentOperation = function;
+            Name = name; Precedence = precedence; Association = association; UnaryOperation = function;
         }
 
         public static bool IsOperator(string input, out Operator op) {
@@ -48,11 +39,11 @@ namespace MICode.Interpreter.Arithmetic {
             return false;
         }
 
-        public static Stack<Token> PerformOperation(Stack<Token> input, Operator op, out dynamic output) {
+        public static Operand PerformOperation(ref Stack<Token> input, Operator op) {
+            dynamic output;
             dynamic n1 = ((Operand)input.Pop()).Value;
-            if((output = op.BinaryOperation?.Invoke(((Operand)input.Pop()).Value, n1)) != null) return input;
-            else output = op.UnaryOperation?.Invoke(n1);
-            return input;
+            if ((output = op.BinaryOperation?.Invoke(((Operand)input.Pop()).Value, n1)) != null) return Token.MakeToken(output.ToString());
+            return Token.MakeToken(op.UnaryOperation?.Invoke(n1).ToString());
         }
 
         public override string ToString() => Name;

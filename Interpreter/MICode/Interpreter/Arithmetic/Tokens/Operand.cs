@@ -8,7 +8,6 @@ namespace MICode.Interpreter.Arithmetic {
     public class Operand : Token {
 
         public dynamic Value { get; private set; }
-       
 
         public Operand(string input) {
             if (VariableManager.HasVariable(input, out dynamic value)) Value = value;
