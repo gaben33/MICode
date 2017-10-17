@@ -12,7 +12,7 @@ namespace Blaze.Interpreter.Arithmetic {
         public static dynamic Evaluate(string input) {
             Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s([A-Za-z0-9]+)\s?=\s?([A-Za-z0-9]+);");
             if(m.Success) {
-                m.Groups[1]
+                //m.Groups[1]
             }
             return EvaluatePostFix(ToPostFix(Tokenize(input)));
         }
