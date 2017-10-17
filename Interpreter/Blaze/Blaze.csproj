@@ -46,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arithmetic\ArithmeticEvaluator.cs" />
+    <Compile Include="Arithmetic\Tokens\ClosingBracket.cs" />
+    <Compile Include="Arithmetic\Tokens\OpeningBracket.cs" />
+    <Compile Include="Arithmetic\Tokens\Operand.cs" />
+    <Compile Include="Arithmetic\Tokens\Operator.cs" />
+    <Compile Include="Arithmetic\Tokens\Operators.cs" />
+    <Compile Include="Arithmetic\Tokens\Token.cs" />
     <Compile Include="IExecutable.cs" />
     <Compile Include="InstructionBuilder.cs" />
     <Compile Include="Method.cs" />

@@ -45,12 +45,12 @@ namespace Blaze.Interpreter {
 			return newPath;
 		}
 
-		//returns a reference to a variable given the current state of the heap and stack
-		public static Variable GetVariable (string name) {
-			if (heap.ContainsKey(name)) return heap[name];
-			foreach (StackFrame s in stack) if (s.Vars.ContainsKey(name)) return s.Vars[name];
-			return null;
-		}
+		public static bool HasVariable(string name, out Variable var) {
+            var = null;
+            if (heap.ContainsKey(name)) { var = heap[name]; return true; }
+            foreach (StackFrame s in stack) if (s.Vars.ContainsKey(name)) { var = s.Vars[name]; return true; };
+            return false;
+        }
 
 		public static void Interpret (Method method) {//interprets given method
 			
