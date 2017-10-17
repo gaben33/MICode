@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MICode.Interpreter.Arithmetic {
+namespace Blaze.Interpreter.Arithmetic {
     public partial class Operator : Token {
 
         public enum Side { Left, Right, None };

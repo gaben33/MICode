@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MICode.Interpreter.Arithmetic {
+namespace Blaze.Interpreter.Arithmetic {
     public class Operand : Token {
 
         public dynamic Value { get; private set; }
 
         public Operand(string input) {
-            if (VariableManager.HasVariable(input, out dynamic value)) Value = value;
+            if (Program.HasVariable(input, out Variable variable)) Value = variable.Value;
             else if (input[0] == '"' && input[input.Length - 1] == '"') Value = input.Trim('"');
             else if ( bool.TryParse(input, out bool  boolResult)) Value = boolResult;
             else if (  int.TryParse(input, out int   intResult)) Value = intResult;

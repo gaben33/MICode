@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MICode.Interpreter.Arithmetic {
+namespace Blaze.Interpreter.Arithmetic {
     public class Token {
 
         public string Name { get; protected set; }

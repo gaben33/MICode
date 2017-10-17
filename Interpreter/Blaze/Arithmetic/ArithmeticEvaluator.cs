@@ -5,11 +5,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MICode.Interpreter.Arithmetic {
+namespace Blaze.Interpreter.Arithmetic {
 
     public class ArithmeticEvaluator {
         
         public static dynamic Evaluate(string input) {
+            Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s([A-Za-z0-9]+)\s?=\s?([A-Za-z0-9]+);");
+            if(m.Success) {
+                //m.Groups[1]
+            }
             return EvaluatePostFix(ToPostFix(Tokenize(input)));
         }
 
