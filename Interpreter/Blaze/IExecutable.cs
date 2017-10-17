@@ -11,8 +11,12 @@ namespace Blaze.Interpreter {
 
 	public abstract class Instruction : IExecutable {
 		public Method EnclosingMethod { get; private set; }
+		public Struct Signature;
 
-		public Instruction(Method enclosingMethod) => EnclosingMethod = enclosingMethod;
+		public Instruction(Method enclosingMethod, Struct signature) {
+			EnclosingMethod = enclosingMethod;
+			Signature = signature;
+		}
 
 		public abstract void Execute();
 	}

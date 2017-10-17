@@ -53,7 +53,7 @@ namespace Blaze.Interpreter {
 		}
 
 		public static void Interpret (Method method) {//interprets given method
-			
+			method.Block.Execute();
 		}
 	}
 }

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="IExecutable.cs" />
     <Compile Include="InstructionBuilder.cs" />
+    <Compile Include="Instructions\MethodEntry.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MethodBuilder.cs" />
     <Compile Include="Preprocessor\ConditionalFixer.cs" />
