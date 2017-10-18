@@ -1,3 +1,4 @@
+int Main() {
 int num = 10;
 int cory = 4;
 int a = num-2;
@@ -18,3 +19,4 @@ print(!f);
 print(g);
 print(!h);
 print(i);
+}

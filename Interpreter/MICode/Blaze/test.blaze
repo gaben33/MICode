@@ -1,15 +1,13 @@
+void Main(){
 int cory = (5-8)^(2*2);
 print(cory);
 // ints work 
-
 float f = 0.4^2;
 print(f);
 // floats work fully
-
 char boii = c;
 print(boii);
 // chars currently dont require quotes
-
 bool x = 4!=2;
 bool y = 4 == 2;
 bool z = true;
@@ -19,9 +17,8 @@ bool c = (false||true) && false;
 bool compound = true && (false || true) && true;
 print(compound);
 // booleans work
-
 //TODO
 // increment decrement operator
 // add support for char and string concatenation
-
 //call arithmetic on right side of assignment or for each individual parameter, also inside conditionals such as if and loops
+}

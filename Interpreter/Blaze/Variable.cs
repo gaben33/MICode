@@ -33,5 +33,9 @@ namespace Blaze {
             if (input == "char") return typeof(char);
             throw new NotImplementedException("This type is not yet supported: " + input);
         }
-	}
+
+        public override string ToString() {
+            return Value.ToString();
+        }
+    }
 }

@@ -1,2 +1,4 @@
+void Main(){
 int a = 5 + 10 * 20;
 print(a);
+}

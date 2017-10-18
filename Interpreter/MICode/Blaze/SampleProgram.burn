@@ -1,3 +1,9 @@
 int Main(){
-print(4);
+int a = ((4+2)*2)^2;
+int b = 12;
+print(a == 12*b);
+a = 2;
+print(a);
+bool gabe = false;
+print(gabe);
 }
