@@ -6,23 +6,31 @@ using System.Threading.Tasks;
 
 namespace Blaze.Interpreter {
 	public class Method {
-		public CodeBlock Block;
-		public Struct Signature;
-		//needs some notion of a signature
+		public string[] lines;
 
-		public Method(CodeBlock block, Struct signature) {
-			Block = block;
-			Signature = signature;
+		public Method(string[] lines) {
+			this.lines = lines;
 		}
-		
-		public virtual void Invoke () {
-			Block.Execute();
+
+		public virtual void Invoke(Struct signature) {
+			StackFrame frame = new StackFrame(signature);
+			Program.stack.Push(frame);
+			for (int i = 0; i < lines.Length; i++) if (!LineInterpreter.Interpret(lines[i])) break;
+			Program.stack.Pop();
 		}
 	}
 
 	public class FunctionalMethod : Method {
-		public dynamic ReturnVal { get; set; }
-		public FunctionalMethod(CodeBlock block, Struct signature) : base(block, signature) {
+		public FunctionalMethod(string[] lines) : base(lines) {
+		}
+
+		public dynamic ReturnVal;
+
+		public override void Invoke(Struct signature) {
+			StackFrame frame = new StackFrame(signature);
+			Program.stack.Push(frame);
+			for (int i = 0; i < lines.Length; i++) if (!LineInterpreter.Interpret(lines[i], out ReturnVal)) break;
+			Program.stack.Pop();
 		}
 	}
 
