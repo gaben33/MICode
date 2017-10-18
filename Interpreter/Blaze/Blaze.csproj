@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Arithmetic\ArithmeticEvaluator.cs" />
     <Compile Include="Arithmetic\Tokens\ClosingBracket.cs" />
+    <Compile Include="Arithmetic\Tokens\Function.cs" />
     <Compile Include="Arithmetic\Tokens\OpeningBracket.cs" />
     <Compile Include="Arithmetic\Tokens\Operand.cs" />
     <Compile Include="Arithmetic\Tokens\Operator.cs" />

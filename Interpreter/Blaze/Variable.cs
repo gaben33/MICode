@@ -25,5 +25,13 @@ namespace Blaze {
 		public void Parse(string value) {
 			Value = parsers[Type](value);
 		}
+
+        public static Type ParseType(string input) {
+            if (input == "int") return typeof(int);
+            if (input == "float") return typeof(float);
+            if (input == "bool") return typeof(bool);
+            if (input == "char") return typeof(char);
+            throw new NotImplementedException("This type is not yet supported: " + input);
+        }
 	}
 }
