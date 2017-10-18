@@ -23,10 +23,8 @@ namespace Blaze.Interpreter {
 			string path = Open(ref args);
 			//build method dictionary after preprocessing, so that line counts are corrected, and main method is fixed
 			methods = MethodBuilder.CreateDictionary(args);
-			StackFrame root = new StackFrame(0);
-			stack.Push(root);
 			string uneditedPath = args[0];//path of file without preprocessing done
-			Interpret(methods["Main"]);
+			methods["Main"].Invoke(new Struct());
 		}
 
 		private static string Open (ref string[] args) {
@@ -46,14 +44,17 @@ namespace Blaze.Interpreter {
 		}
 
 		public static bool HasVariable(string name, out Variable var) {
-            var = null;
-            if (heap.ContainsKey(name)) { var = heap[name]; return true; }
-            foreach (StackFrame s in stack) if (s.Vars.ContainsKey(name)) { var = s.Vars[name]; return true; };
-            return false;
-        }
+			var = null;
+			if (heap.ContainsKey(name)) { var = heap[name]; return true; }
+			StackFrame sf = stack.Peek();
+			if (sf.Vars.ContainsKey(name)) { var = sf.Vars[name]; return true; };
+			return false;
+		}
 
-		public static void Interpret (Method method) {//interprets given method
-			
+		public static Variable CreateVariable (string name, Type type, dynamic initialVal) {
+			Variable v = new Variable(name, initialVal, type);
+			stack.Peek().Vars.Add(name, v);
+			return v;
 		}
 	}
 }

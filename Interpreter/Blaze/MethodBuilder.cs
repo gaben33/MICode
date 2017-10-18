@@ -8,7 +8,9 @@ using System.Text.RegularExpressions;
 namespace Blaze.Interpreter {
 	internal class MethodBuilder {
 		public static Dictionary<string, Method> CreateDictionary(string[] text) {
-			Dictionary<string, Method> methodDict = new Dictionary<string, Method>();
+			Dictionary<string, Method> methodDict = new Dictionary<string, Method>() {//default methods
+				
+			};
 			Regex methodSpotter = new Regex(@"(void|int|char|bool|string)\s([A-z]+)\s?\(([A-z,\s]+)?\)");
 			for (int i = 0; i < text.Length; i++) {
 				Match curMatch;
@@ -32,9 +34,8 @@ namespace Blaze.Interpreter {
 					string name = curMatch.Groups[2].Value;
 					string type = curMatch.Groups[1].Value;
 					//create a code block for it, then encapsulate with a Method
-					CodeBlock block = new CodeBlock(openingLine, closingLine);
-					Method newMethod = new Method(block);
-					if (type != "void") newMethod = new FunctionalMethod(block);
+					Method newMethod = new Method(text.Skip(openingLine).Take(closingLine - openingLine).ToArray());
+					if (type != "void") newMethod = new FunctionalMethod(text.Skip(openingLine).Take(closingLine - openingLine).ToArray());
 					//add the method to the dictionary
 					methodDict.Add(name, newMethod);
 				}

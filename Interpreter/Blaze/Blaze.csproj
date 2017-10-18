@@ -54,8 +54,7 @@
     <Compile Include="Arithmetic\Tokens\Operator.cs" />
     <Compile Include="Arithmetic\Tokens\Operators.cs" />
     <Compile Include="Arithmetic\Tokens\Token.cs" />
-    <Compile Include="IExecutable.cs" />
-    <Compile Include="InstructionBuilder.cs" />
+    <Compile Include="LineInterpreter.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MethodBuilder.cs" />
     <Compile Include="Preprocessor\ConditionalFixer.cs" />
@@ -67,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Instructions\" />
+    <Folder Include="PresetMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
