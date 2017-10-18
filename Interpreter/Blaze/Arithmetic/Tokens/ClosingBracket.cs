@@ -8,7 +8,7 @@ namespace Blaze.Interpreter.Arithmetic {
     public class ClosingBracket : Token {
 
         public static readonly ClosingBracket RightParentheses = new ClosingBracket(")");
-        public string Name { get; private set; }
+        public static readonly ClosingBracket Comma = new ClosingBracket(",");
 
         public static IEnumerable<ClosingBracket> Values {
             get { yield return RightParentheses; }

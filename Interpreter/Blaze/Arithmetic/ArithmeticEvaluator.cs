@@ -1,24 +1,33 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System;
 
 namespace Blaze.Interpreter.Arithmetic {
 
-    public class ArithmeticEvaluator {
+    public static class ArithmeticEvaluator {
         
         public static dynamic Evaluate(string input) {
-            Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s([A-Za-z0-9]+)\s?=\s?([A-Za-z0-9]+);");
+            Variable variable = null;
+            Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s([A-Za-z0-9]+)\s?=([^=;]+);");
             if(m.Success) {
-                //m.Groups[1]
-            }
-            return EvaluatePostFix(ToPostFix(Tokenize(input)));
+                string type = m.Groups[1].Value;
+                string name = m.Groups[2].Value;
+                string right = m.Groups[3].Value;
+                if(type == "") {
+                    dynamic result = EvaluatePostFix(ToPostFix(Tokenize(input)));
+                    variable = new Variable(name, result, Variable.ParseType(type));
+                } else {
+                    if (Program.HasVariable(name, out Variable var)) variable = var;
+                    else throw new NotImplementedException("The variable: " + name + " doesn't exist in the current context");
+                    variable.Value = EvaluatePostFix(ToPostFix(Tokenize(input)));
+                }
+            } else return EvaluatePostFix(ToPostFix(Tokenize(input)));
+            return variable.Value;
         }
 
         private static List<string> Tokenize(string input) {
-            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&{2}|\|{2}|={2}|!=|>=|<=|-|\+=|[!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
+            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|-|[=!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
             output.RemoveAll(i => i == ""); // TODO split the string such that no empty space tokens are created in the first place
             return output;
         }
@@ -30,10 +39,14 @@ namespace Blaze.Interpreter.Arithmetic {
             for (int i = 0; i < tokens.Count; i++) {
                 Token token = Token.MakeToken(tokens[i]);
                 if (token is Operand) output.Add(token);
+                if (token is Function) operators.Push(token);
                 if (token is OpeningBracket) operators.Push(token);
                 if (token is ClosingBracket) {
                     while (!(operators.Peek() is OpeningBracket))  output.Add(operators.Pop());
-                    operators.Pop();
+                    if (token.Name == ")") {
+                        operators.Pop();
+                        if (operators.Peek() is Function) output.Add(operators.Pop());
+                    }
                 }
                 if (token is Operator) {
                     if (token.Name == "-" && Token.IsUnary(i, tokens)) token = Operator.Negative; // determines if binary minus or unary negative
@@ -54,11 +67,16 @@ namespace Blaze.Interpreter.Arithmetic {
             Stack<Token> numbers = new Stack<Token>();
 
             for(int i = 0; i < tokens.Count; i++) {
-                if (tokens[i] is Operand) {
-                    numbers.Push(tokens[i]);
-                } else {
+                if (tokens[i] is Operand) numbers.Push(tokens[i]);
+                else if(tokens[i] is Operator){
                     Operand result = Operator.PerformOperation(ref numbers, (Operator) tokens[i]);
                     numbers.Push(result);
+                } else if(tokens[i] is Function) {
+                    Function f = (Function) tokens[i];
+                    for(int j = 0; j < f.ArgCount; j++) {
+                        f.Args[j] = numbers.Pop();
+                    }
+                    f.Execute();
                 }
             }
             return numbers.Peek();
