@@ -58,6 +58,7 @@
     <Compile Include="MethodBuilder.cs" />
     <Compile Include="Preprocessor\ConditionalFixer.cs" />
     <Compile Include="Preprocessor\Preprocessor.cs" />
+    <Compile Include="PresetMethods\PrintMethod.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StackFrame.cs" />
@@ -68,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Instructions\" />
-    <Folder Include="PresetMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -56,5 +56,12 @@ namespace Blaze.Interpreter {
 			stack.Peek().Vars.Add(name, v);
 			return v;
 		}
+
+		public static bool HasMethod(string name, out Method method) {
+			bool hasMethod = methods.ContainsKey(name);
+			if (hasMethod) method = methods[name];
+			else method = null;
+			return hasMethod;
+		}
 	}
 }
