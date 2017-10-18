@@ -16,15 +16,18 @@ namespace Blaze.Interpreter {
 		public static int Line { get; set; }
 		public static List<string> lines = new List<string>();
 		public static Method Method { get; private set; }//method enclosing instruction currently being executed
+		public static bool Running = true;
 		#endregion
 
 		[STAThread]
 		public static void Main(string[] args) {
 			string path = Open(ref args);
+			if (path == "null") return;
 			//build method dictionary after preprocessing, so that line counts are corrected, and main method is fixed
-			methods = MethodBuilder.CreateDictionary(args);
+			methods = MethodBuilder.CreateDictionary(File.ReadAllLines(args[0]));
 			string uneditedPath = args[0];//path of file without preprocessing done
 			methods["Main"].Invoke(new Struct());
+			while (Running);
 		}
 
 		private static string Open (ref string[] args) {
@@ -37,6 +40,7 @@ namespace Blaze.Interpreter {
 					args = new string[] { ofd.FileName };
 				}
 			}
+			if (args.Length == 0) return "null";
 			string newPath = args[0].Replace(".blaze", ".burn");
 			lines = File.ReadAllLines(args[0]).ToList();
 			Preprocessor.Preprocessor.Fix(args[0], newPath);

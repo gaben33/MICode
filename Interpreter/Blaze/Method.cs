@@ -23,8 +23,12 @@ namespace Blaze.Interpreter {
 		}
 	}
 
-	public struct Struct {
+	public class Struct {
 		public Variable[] inputs;
+
+		public Struct() {
+			inputs = new Variable[0];
+		}
 
 		public Struct(Variable[] inputs) {
 			this.inputs = inputs;

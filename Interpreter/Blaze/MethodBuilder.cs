@@ -23,11 +23,10 @@ namespace Blaze.Interpreter {
 						for (int k = 0; k < text[j].Length; k++) {
 							if (text[j][k] == '{') lines.Enqueue(j);
 							else if (text[j][k] == '}') {
-								lines.Dequeue();
 								if (lines.Count == 1) {
-									closingLine = lines.Dequeue();
+									closingLine = j;
 									break;
-								}
+								} else lines.Dequeue();
 							}
 						}
 					}
