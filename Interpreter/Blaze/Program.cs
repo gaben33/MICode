@@ -13,6 +13,7 @@ namespace Blaze.Interpreter {
 		public static Dictionary<string, Variable> heap = new Dictionary<string, Variable>();
 		public static Stack<StackFrame> stack = new Stack<StackFrame>();
 		public static Dictionary<string, Method> methods;
+		public static Dictionary<string, int> methodLines;
 		public static int Line { get; set; }
 		public static List<string> lines = new List<string>();
 		public static Method Method { get; private set; }//method enclosing instruction currently being executed
@@ -24,9 +25,9 @@ namespace Blaze.Interpreter {
 			string path = Open(ref args);
 			if (path == "null") return;
 			//build method dictionary after preprocessing, so that line counts are corrected, and main method is fixed
-			methods = MethodBuilder.CreateDictionary(File.ReadAllLines(args[0]));
+			methods = MethodBuilder.CreateDictionary(File.ReadAllLines(path), out methodLines);
 			string uneditedPath = args[0];//path of file without preprocessing done
-			methods["Main"].Invoke(new Struct());
+			methods["Main"].Invoke(new Struct(), methodLines["Main"]);
 			while (Running);
 		}
 
@@ -66,6 +67,36 @@ namespace Blaze.Interpreter {
 			if (hasMethod) method = methods[name];
 			else method = null;
 			return hasMethod;
+		}
+
+		public static void RunStackFrame () {
+			StackFrame frame = new StackFrame(Line);
+			stack.Push(frame);
+			while (LineInterpreter.Interpret(lines[Line], out dynamic d)) Line++;
+			stack.Pop();
+			frame.Close();
+			return;
+		}
+
+		public static void RunStackFrame (string firstLine) {
+			StackFrame frame = new StackFrame(Line);
+			stack.Push(frame);
+			LineInterpreter.Interpret(firstLine, out dynamic d);
+			Line++;
+			while (LineInterpreter.Interpret(lines[Line], out d)) Line++;
+			stack.Pop();
+			frame.Close();
+			return;
+		}
+
+		public static void RunStackFrame (Action<int> onStackClose) {
+			StackFrame frame = new StackFrame(Line);
+			stack.Push(frame);
+			while (LineInterpreter.Interpret(lines[Line], out dynamic d)) Line++;
+			stack.Pop();
+			frame.Close();
+			onStackClose(Line);
+			return;
 		}
 	}
 }

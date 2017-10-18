@@ -8,10 +8,11 @@ using Blaze.Interpreter.PresetMethods;
 
 namespace Blaze.Interpreter {
 	internal class MethodBuilder {
-		public static Dictionary<string, Method> CreateDictionary(string[] text) {
+		public static Dictionary<string, Method> CreateDictionary(string[] text, out Dictionary<string, int> methodIndices) {
 			Dictionary<string, Method> methodDict = new Dictionary<string, Method>() {//default methods
 				{"print", new PrintMethod(new string[] { }) }
 			};
+			methodIndices = new Dictionary<string, int>();
 			Regex methodSpotter = new Regex(@"(void|int|char|bool|string)\s([A-z]+)\s?\(([A-z,\s]+)?\)");
 			for (int i = 0; i < text.Length; i++) {
 				Match curMatch;
@@ -38,6 +39,8 @@ namespace Blaze.Interpreter {
 					Method newMethod = new Method(text.Skip(openingLine).Take(closingLine - openingLine).ToArray(), paramCount);
 					//add the method to the dictionary
 					methodDict.Add(name, newMethod);
+					//and also add the index
+					methodIndices.Add(name, openingLine);
 				}
 			}
 			return methodDict;

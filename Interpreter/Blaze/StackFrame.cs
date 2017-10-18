@@ -7,11 +7,17 @@ using System.Threading.Tasks;
 namespace Blaze.Interpreter {
 	public class StackFrame {
 		public Dictionary<string, Variable> Vars = new Dictionary<string, Variable>();//variables executed on stack
+		public int Line;//line that stack frame starts on.  Used for looping purposes
+		public Action<int> OnStackClose;
 
-		public StackFrame() {
+		public StackFrame (int lineIndex) {
+			Line = lineIndex;
 		}
-		public StackFrame(Struct vars) {
+
+		public StackFrame (Struct vars, int lineIndex) : this(lineIndex) {
 			foreach (Variable v in vars.inputs) Vars.Add(v.Name, v);
 		}
+
+		public void Close() => OnStackClose?.Invoke(Line);
 	}
 }
