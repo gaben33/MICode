@@ -9,14 +9,16 @@ namespace Blaze.Interpreter {
 		public string[] lines;
 		public int ParamCount;
 		public dynamic ReturnVal;
+		public int Line;
 
-		public Method(string[] lines, int paramCount) {
+		public Method(string[] lines, int paramCount, int line) {
 			this.lines = lines;
 			ParamCount = paramCount;
+			Line = line;
 		}
 
-		public virtual void Invoke(Struct signature, int line) {
-			StackFrame frame = new StackFrame(signature, line);
+		public virtual void Invoke(Struct signature) {
+			StackFrame frame = new StackFrame(signature, Line);
 			Program.stack.Push(frame);
 			MethodOpen();
 			for (int i = 0; i < lines.Length; i++) if (!LineInterpreter.Interpret(lines[i], out ReturnVal)) break;

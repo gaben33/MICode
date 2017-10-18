@@ -13,7 +13,6 @@ namespace Blaze.Interpreter {
 		public static Dictionary<string, Variable> heap = new Dictionary<string, Variable>();
 		public static Stack<StackFrame> stack = new Stack<StackFrame>();
 		public static Dictionary<string, Method> methods;
-		public static Dictionary<string, int> methodLines;
 		public static int Line { get; set; }
 		public static List<string> lines = new List<string>();
 		public static Method Method { get; private set; }//method enclosing instruction currently being executed
@@ -25,9 +24,9 @@ namespace Blaze.Interpreter {
 			string path = Open(ref args);
 			if (path == "null") return;
 			//build method dictionary after preprocessing, so that line counts are corrected, and main method is fixed
-			methods = MethodBuilder.CreateDictionary(File.ReadAllLines(path), out methodLines);
+			methods = MethodBuilder.CreateDictionary(File.ReadAllLines(path));
 			string uneditedPath = args[0];//path of file without preprocessing done
-			methods["Main"].Invoke(new Struct(), methodLines["Main"]);
+			methods["Main"].Invoke(new Struct());
 			while (Running);
 		}
 
