@@ -21,8 +21,7 @@ namespace Blaze.Interpreter.Arithmetic {
         }
 
         public dynamic Execute() {
-            Struct p = new Struct(Args);
-            method.Invoke(p);
+            method.Invoke(new Struct(Args));
             return method.ReturnVal;
         }
     }

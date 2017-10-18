@@ -8,7 +8,6 @@ namespace Blaze.Interpreter.Arithmetic {
     public class OpeningBracket : Token {
 
         public static readonly OpeningBracket LeftParentheses = new OpeningBracket("(");
-        public string Name { get; private set; }
 
         public static IEnumerable<OpeningBracket> Values {
             get { yield return LeftParentheses; }
