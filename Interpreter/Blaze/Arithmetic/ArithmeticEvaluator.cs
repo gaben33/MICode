@@ -16,7 +16,7 @@ namespace Blaze.Interpreter.Arithmetic {
                 string right = m.Groups[3].Value;
                 if(type == "") {
                     dynamic result = EvaluatePostFix(ToPostFix(Tokenize(input)));
-                    variable = new Variable(name, result, Variable.ParseType(type));
+                    variable = Program.CreateVariable(name, Variable.ParseType(type), result);
                 } else {
                     if (Program.HasVariable(name, out Variable var)) variable = var;
                     else throw new NotImplementedException("The variable: " + name + " doesn't exist in the current context");
@@ -74,7 +74,7 @@ namespace Blaze.Interpreter.Arithmetic {
                 } else if(tokens[i] is Function) {
                     Function f = (Function) tokens[i];
                     for(int j = 0; j < f.ArgCount; j++) {
-                        f.Args[j] = new Variable("temp", numbers.Pop(), typeof(int));
+                        f.Args[j] = new Variable("temp", numbers.Pop(), ((Operand) tokens[i]).Type);
                     }
                     f.Execute();
                 }
