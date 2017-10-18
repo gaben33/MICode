@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blaze.Interpreter.PresetMethods {
 	public class PrintMethod : Method {
-		public PrintMethod(string[] lines) : base(lines) {
+		public PrintMethod(string[] lines) : base(lines, 1) {
 		}
 
 		public override void Invoke(Struct signature) {

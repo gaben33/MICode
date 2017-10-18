@@ -31,12 +31,12 @@ namespace Blaze.Interpreter {
 							}
 						}
 					}
-					//find the name and type
+					//find the name and type, and param count
 					string name = curMatch.Groups[2].Value;
 					string type = curMatch.Groups[1].Value;
+					int paramCount = curMatch.Groups[3].Value.Split(',').Select(s => s.Length > 1).Count();
 					//create a code block for it, then encapsulate with a Method
-					Method newMethod = new Method(text.Skip(openingLine).Take(closingLine - openingLine).ToArray());
-					if (type != "void") newMethod = new FunctionalMethod(text.Skip(openingLine).Take(closingLine - openingLine).ToArray());
+					Method newMethod = new Method(text.Skip(openingLine).Take(closingLine - openingLine).ToArray(), paramCount);
 					//add the method to the dictionary
 					methodDict.Add(name, newMethod);
 				}
