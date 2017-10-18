@@ -1,3 +1,7 @@
 ﻿int Main(){
-print(4);
+int a = (4+2)*2;
+a = 2;
+print(a);
+bool gabe = false;
+print(gabe);
 }
