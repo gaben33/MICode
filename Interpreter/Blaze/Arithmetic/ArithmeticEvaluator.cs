@@ -74,7 +74,7 @@ namespace Blaze.Interpreter.Arithmetic {
                 } else if(tokens[i] is Function) {
                     Function f = (Function) tokens[i];
                     for(int j = 0; j < f.ArgCount; j++) {
-                        f.Args[j] = numbers.Pop();
+                        f.Args[j] = new Variable("temp", numbers.Pop(), typeof(int));
                     }
                     f.Execute();
                 }

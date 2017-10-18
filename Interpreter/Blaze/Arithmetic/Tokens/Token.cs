@@ -13,6 +13,7 @@ namespace Blaze.Interpreter.Arithmetic {
             if (input == "(") return OpeningBracket.LeftParentheses;
             if (input == ")") return ClosingBracket.RightParentheses;
             if (input == ",") return ClosingBracket.Comma;
+            if(Program.HasMethod(input, out Method m)) return new Function(m);
             if (Operator.IsOperator(input, out Operator op)) return op;
             return new Operand(input);
         }
