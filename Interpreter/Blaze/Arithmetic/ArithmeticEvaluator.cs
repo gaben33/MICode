@@ -14,16 +14,16 @@ namespace Blaze.Interpreter.Arithmetic {
                 string type = m.Groups[1].Value;
                 string name = m.Groups[2].Value;
                 string right = m.Groups[3].Value;
-                if(type != "") {
-                    dynamic result = EvaluatePostFix(ToPostFix(Tokenize(right)));
+                dynamic result = EvaluatePostFix(ToPostFix(Tokenize(right)));
+                if (type != "") {
                     variable = Program.CreateVariable(name, Variable.ParseType(type), result);
                 } else {
-                    if (Program.HasVariable(name, out Variable var)) variable = var;
-                    else throw new NotImplementedException("The variable: " + name + " doesn't exist in the current context");
-                    variable.Value = EvaluatePostFix(ToPostFix(Tokenize(right)));
+                    if (Program.HasVariable(name, out Variable var)) {
+                        var.Value = result;
+                    } else throw new NotImplementedException("The variable: " + name + " doesn't exist in the current context");
                 }
             } else return EvaluatePostFix(ToPostFix(Tokenize(input)));
-            return variable.Value;
+            return null;
         }
 
         private static List<string> Tokenize(string input) {
@@ -34,31 +34,31 @@ namespace Blaze.Interpreter.Arithmetic {
 
         private static List<Token> ToPostFix(List<string> tokens) {
             List<Token> output = new List<Token>();
-            Stack<Token> operators = new Stack<Token>(); // TODO rename operators because it can also hold ( which isn't an operator
+            Stack<Token> stack = new Stack<Token>();
 
             for (int i = 0; i < tokens.Count; i++) {
                 Token token = Token.MakeToken(tokens[i]);
                 if (token is Operand) output.Add(token);
-                if (token is Function) operators.Push(token);
-                if (token is OpeningBracket) operators.Push(token);
+                if (token is Function) stack.Push(token);
+                if (token is OpeningBracket) stack.Push(token);
                 if (token is ClosingBracket) {
-                    while (!(operators.Peek() is OpeningBracket))  output.Add(operators.Pop());
+                    while (!(stack.Peek() is OpeningBracket))  output.Add(stack.Pop());
                     if (token.Name == ")") {
-                        operators.Pop();
-                        if (operators.Count > 0 && operators.Peek() is Function) output.Add(operators.Pop());
+                        stack.Pop();
+                        if (stack.Count > 0 && stack.Peek() is Function) output.Add(stack.Pop());
                     }
                 }
                 if (token is Operator) {
                     if (token.Name == "-" && Token.IsUnary(i, tokens)) token = Operator.Negative; // determines if binary minus or unary negative
                     if (token.Name == "+" && Token.IsUnary(i, tokens)) continue; // filters out redundant +'s eg (x = +5)
 
-                    while (KeepPushingOperators(token, operators)) output.Add(operators.Pop());
-                    operators.Push(token);
+                    while (KeepPushingOperators(token, stack)) output.Add(stack.Pop());
+                    stack.Push(token);
                 }
             }
-            while (operators.Count > 0) {
-                if (operators.Peek() is Operator) output.Add(operators.Pop());
-                else operators.Pop();
+            while (stack.Count > 0) {
+                if (stack.Peek() is Operator) output.Add(stack.Pop());
+                else stack.Pop();
             }
             return output;
         }
@@ -77,14 +77,13 @@ namespace Blaze.Interpreter.Arithmetic {
                         Operand operand = (Operand) numbers.Pop();
                         f.Args[j] = new Variable("temp", operand.Value, operand.Type);
                     }
-                    //dynamic result;
-                    f.Execute();
-                    //if ((result = f.Execute()) != null) {
-                      //  numbers.Push(Token.MakeToken(result));
-                    //}
+                    dynamic result;
+                    if ((result = f.Execute()) != null) {
+                        numbers.Push(Token.MakeToken(result));
+                    }
                 }
             }
-            return numbers.Peek();
+            return ((Operand) numbers.Peek()).Value;
         }
 
         private static bool KeepPushingOperators(Token op, Stack<Token> operators) {

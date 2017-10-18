@@ -46,7 +46,12 @@ namespace Blaze.Interpreter.Arithmetic {
         public static Operand PerformOperation(ref Stack<Token> input, Operator op) {
             dynamic output;
             dynamic n1 = ((Operand) input.Pop()).Value;
-            if ((output = op.BinaryOperation?.Invoke(((Operand) input.Pop()).Value, n1)) != null) return Token.MakeToken(output.ToString());
+            if(op.BinaryOperation != null) {
+                dynamic n2 = ((Operand)input.Pop()).Value;
+                output = op.BinaryOperation(n2, n1);
+                return Token.MakeToken(output.ToString());
+            }
+            //if ((output = op.BinaryOperation?.Invoke(((Operand) input.Pop()).Value, n1)) != null) return Token.MakeToken(output.ToString());
             return Token.MakeToken(op.UnaryOperation?.Invoke(n1).ToString());
         }
 

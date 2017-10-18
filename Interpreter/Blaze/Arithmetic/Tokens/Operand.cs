@@ -11,7 +11,10 @@ namespace Blaze.Interpreter.Arithmetic {
         public Type Type { get; private set; }
 
         public Operand(string input) {
-            if (Program.HasVariable(input, out Variable variable)) { Value = variable.Value; Type = variable.Type; } else if (input[0] == '"' && input[input.Length - 1] == '"') Value = input.Trim('"');
+            Name = input;
+            if (Program.HasVariable(input, out Variable variable)) {
+                Value = variable.Value; Type = variable.Type;
+            } else if (input[0] == '"' && input[input.Length - 1] == '"') Value = input.Trim('"');
             else if (bool.TryParse(input, out bool boolResult)) { Value = boolResult; Type = typeof(bool); }
             else if (int.TryParse(input, out int intResult)) { Value = intResult; Type = typeof(int); }
             else if (float.TryParse(input, out float floatResult)) { Value = floatResult; Type = typeof(int); }
