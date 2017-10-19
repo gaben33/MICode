@@ -10,8 +10,10 @@ namespace Blaze.Interpreter {
 	internal class MethodBuilder {
 		public static Dictionary<string, Method> CreateDictionary(string[] text) {
 			Dictionary<string, Method> methodDict = new Dictionary<string, Method>() {//default methods
-				{"print", new PrintMethod(new string[] { }) }
-			};
+				{"print", new PrintMethod(new string[] { }) },
+                {"println", new PrintlnMethod(new string[] { }) },
+                {"max", new Max(new string[] { }) }
+            };
 			Regex methodSpotter = new Regex(@"(void|int|char|bool|string)\s([A-z]+)\s?\(([A-z,\s]+)?\)");
 			for (int i = 0; i < text.Length; i++) {
 				Match curMatch;
