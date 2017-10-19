@@ -27,7 +27,7 @@ namespace Blaze.Interpreter.Arithmetic {
         }
 
         private static List<string> Tokenize(string input) {
-            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|-|[=!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
+            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|\+\+|-|[=!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
             output.RemoveAll(i => i == ""); // TODO split the string such that no empty space tokens are created in the first place
             return output;
         }
@@ -75,7 +75,7 @@ namespace Blaze.Interpreter.Arithmetic {
                     Function f = (Function) tokens[i];
                     for(int j = 0; j < f.ArgCount; j++) {
                         Operand operand = (Operand) numbers.Pop();
-                        f.Args[j] = new Variable("temp", operand.Value, operand.Type);
+                        f.Args[j] = operand.Variable;
                     }
                     dynamic result;
                     if ((result = f.Execute()) != null) {

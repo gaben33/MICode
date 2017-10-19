@@ -25,15 +25,15 @@ namespace Blaze.Interpreter.Arithmetic {
         //unary
         public static readonly Operator Negative = new Operator("–", 5, Side.Left, (i) => -i);
         public static readonly Operator Not = new Operator("!", 2, Side.Left, (i) => !i);
-        public static readonly Operator Increment = new Operator("++", 5, Side.Left, (i) => i++);
+        public static readonly Operator Increment = new Operator("++", 5, Side.Left, (i) => i+1);
         public static readonly Operator Decrement = new Operator("--", 2, Side.Left, (i) => i--);
         //assignment
-        public static readonly Operator AssignmentEquals = new Operator("=", 0, (i1, i2) => i1.Value = i2);
-        public static readonly Operator PlusEquals = new Operator("+=", 0, (i1, i2) => i1.Value += i2);
-        public static readonly Operator MinusEquals = new Operator("-=", 0, (i1, i2) => i1.Value -= i2);
-        public static readonly Operator TimesEquals = new Operator("*=", 0, (i1, i2) => i1.Value *= i2);
-        public static readonly Operator DividedEquals = new Operator("/=", 0, (i1, i2) => i1.Value /= i2);
-        public static readonly Operator ModulusEquals = new Operator("%=", 0, (i1, i2) => i1.Value %= i2);
+        public static readonly Operator AssignmentEquals = new Operator("=", (i1, i2) => i1.Value = i2);
+        public static readonly Operator PlusEquals = new Operator("+=", (i1, i2) => i1.Value += i2);
+        public static readonly Operator MinusEquals = new Operator("-=", (i1, i2) => i1.Value -= i2);
+        public static readonly Operator TimesEquals = new Operator("*=", (i1, i2) => i1.Value *= i2);
+        public static readonly Operator DividedEquals = new Operator("/=", (i1, i2) => i1.Value /= i2);
+        public static readonly Operator ModulusEquals = new Operator("%=", (i1, i2) => i1.Value %= i2);
 
         public static IEnumerable<Operator> Values {
             get {
@@ -53,8 +53,8 @@ namespace Blaze.Interpreter.Arithmetic {
                 yield return LogicalLessOrEqualTo;
                 yield return Negative;
                 yield return Not;
-                //yield return Increment;
-                //yield return Decrement;
+                yield return Increment;
+                yield return Decrement;
                 yield return AssignmentEquals;
                 yield return PlusEquals;
                 yield return MinusEquals;

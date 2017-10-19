@@ -12,7 +12,7 @@ namespace Blaze.Interpreter.Arithmetic {
         public Side Association { get; private set; }
         public Func<dynamic, dynamic, dynamic> BinaryOperation { get; private set; }
         public Func<dynamic, dynamic> UnaryOperation { get; private set; }
-        public Func<Variable, dynamic, dynamic> AssignmentOperation { get; private set; }
+        public Action<Variable, dynamic> AssignmentOperation { get; private set; }
 
 
         private Operator(string name, int precedence, Side association, Func<dynamic, dynamic, dynamic> function) {
@@ -26,8 +26,8 @@ namespace Blaze.Interpreter.Arithmetic {
             Name = name; Precedence = precedence; Association = association; UnaryOperation = function;
         }
 
-        private Operator(string name, int precedence, Func<Variable, dynamic, dynamic> function) {
-            Name = name; Precedence = precedence; AssignmentOperation = function;
+        private Operator(string name, Action<Variable, dynamic> function) {
+            Name = name; AssignmentOperation = function;
         }
 
         public static bool IsOperator(string input, out Operator op) {
@@ -46,13 +46,15 @@ namespace Blaze.Interpreter.Arithmetic {
         public static Operand PerformOperation(ref Stack<Token> input, Operator op) {
             dynamic output;
             dynamic n1 = ((Operand) input.Pop()).Value;
-            if(op.BinaryOperation != null) {
+            if (op.BinaryOperation != null) {
                 dynamic n2 = ((Operand)input.Pop()).Value;
                 output = op.BinaryOperation(n2, n1);
                 return Token.MakeToken(output.ToString());
-            }
-            //if ((output = op.BinaryOperation?.Invoke(((Operand) input.Pop()).Value, n1)) != null) return Token.MakeToken(output.ToString());
-            return Token.MakeToken(op.UnaryOperation?.Invoke(n1).ToString());
+            } else if (op.UnaryOperation != null) return Token.MakeToken(op.UnaryOperation(n1).ToString());
+            else if (op.AssignmentOperation != null) {
+                op.AssignmentOperation(n1, ((Operand)input.Pop()).Value);
+                return null;
+            } else throw new NotImplementedException("Operation not defined");
         }
 
         public override string ToString() => Name;

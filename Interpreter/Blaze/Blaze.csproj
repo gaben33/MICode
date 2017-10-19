@@ -34,6 +34,9 @@
   <PropertyGroup>
     <StartupObject>Blaze.Interpreter.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>burn.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Instructions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="burn.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

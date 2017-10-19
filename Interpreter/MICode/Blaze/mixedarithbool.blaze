@@ -1,5 +1,0 @@
-int cory = (5-8)^2;
-cory = cory-3;
-float jenna = 5.5;
-bool b = cory+0.5 == jenna;
-print(cory);

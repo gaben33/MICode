@@ -1,5 +1,0 @@
-int x = 3;
-int y = 4;
-bool c = false;
-bool b = c&&((x+y==5+2)&&(x<y));
-print(b);

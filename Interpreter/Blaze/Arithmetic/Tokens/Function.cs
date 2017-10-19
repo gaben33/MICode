@@ -14,7 +14,7 @@ namespace Blaze.Interpreter.Arithmetic {
         
         public Function(Method method) {
             this.method = method;
-            // Todo add name
+            //Name = method.Name;
             ArgCount = method.ParamCount;
             Args = new Variable[ArgCount];
 
