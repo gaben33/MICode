@@ -42,9 +42,9 @@ namespace Blaze.Interpreter.Arithmetic {
             for (int i = 0; i < tokens.Count; i++) {
                 Token token = Token.MakeToken(tokens[i]);
                 if (token is Operand) output.Add(token);
-                if (token is Function) { stack.Push(token); arity.Push(1); }
-                if (token is OpeningBracket) stack.Push(token);
-                if (token is ClosingBracket) {
+                else if (token is Function) { stack.Push(token); arity.Push(1); }
+                else if (token is OpeningBracket) stack.Push(token);
+                else if (token is ClosingBracket) {
                     while (!(stack.Peek() is OpeningBracket))  output.Add(stack.Pop());
                     if (token.Name == ")") {
                         stack.Pop();
@@ -55,8 +55,8 @@ namespace Blaze.Interpreter.Arithmetic {
                         };
                     }
                     if(token.Name == ",") { arity.Push(arity.Pop() + 1); }
-                }
-                if (token is Operator) {
+                } 
+                else if (token is Operator) {
                     if (token.Name == "-" && Token.IsUnary(i, tokens)) token = Operator.Negative; // determines if binary minus or unary negative
                     if (token.Name == "+" && Token.IsUnary(i, tokens)) continue; // filters out redundant +'s eg (x = +5)
 
@@ -75,19 +75,18 @@ namespace Blaze.Interpreter.Arithmetic {
             Stack<Token> numbers = new Stack<Token>();
 
             for(int i = 0; i < tokens.Count; i++) {
-                if (tokens[i] is Operand) numbers.Push(tokens[i]);
-                else if(tokens[i] is Operator){
-                    Operand result = Operator.PerformOperation(ref numbers, (Operator) tokens[i]);
+                if (tokens[i] is Operand o) numbers.Push(o);
+                else if(tokens[i] is Operator curOp){
+                    Operand result = Operator.PerformOperation(ref numbers, curOp);
                     numbers.Push(result);
-                } else if(tokens[i] is Function) {
-                    Function f = (Function) tokens[i];
+                } else if(tokens[i] is Function f) {
                     for(int j = 0; j < f.ArgCount; j++) {
                         Operand operand = (Operand) numbers.Pop();
                         f.Args[j] = operand.Variable;
                     }
                     dynamic result;
                     if ((result = f.Execute()) != null) {
-                        numbers.Push(Token.MakeToken(result));
+                        numbers.Push(Token.MakeToken(result.ToString()));
                     }
                 }
             }

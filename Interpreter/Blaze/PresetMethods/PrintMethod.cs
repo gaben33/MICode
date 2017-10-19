@@ -6,13 +6,32 @@ using System.Threading.Tasks;
 
 namespace Blaze.Interpreter.PresetMethods {
 	public class PrintMethod : Method {
-		public PrintMethod(string[] lines) : base(lines, 1, 0) {
-		}
+		public PrintMethod(string[] lines) : base(lines, 1, 0) {}
 
 		public override void Invoke(Struct signature) {
             for(int i = 0; i < signature.inputs.Length; i++) {
-                Console.WriteLine(signature.inputs[signature.inputs.Length-i-1]);
+                Console.Write(signature.inputs[signature.inputs.Length-i-1]);
             }
 		}
 	}
+    public class PrintlnMethod : Method {
+        public PrintlnMethod(string[] lines) : base(lines, 1, 0) {}
+
+        public override void Invoke(Struct signature) {
+            for (int i = 0; i < signature.inputs.Length; i++) {
+                Console.WriteLine(signature.inputs[signature.inputs.Length - i - 1]);
+            }
+        }
+    }
+
+    public class Max : Method {
+        public Max(string[] lines) : base(lines, 1, 0) { }
+        public override void Invoke(Struct signature) {
+            int max = signature.inputs[0].Value;
+            for (int i = 0; i < signature.inputs.Length; i++) {
+                if (signature.inputs[i].Value > max) max = signature.inputs[i].Value;
+            }
+            ReturnVal = max;
+        }
+    }
 }
