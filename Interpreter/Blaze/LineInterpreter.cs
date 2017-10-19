@@ -9,6 +9,9 @@ using static Blaze.Interpreter.Arithmetic.ArithmeticEvaluator;
 namespace Blaze.Interpreter {
 	public class LineInterpreter {
 		public static bool Interpret(string line, out dynamic result) {
+			result = null;
+			//scope close operator
+			if (line.Contains("}")) return false;
 			//check to see if a line is a return statement
 			Regex r = new Regex(@"return\s*([^;]+)?;");
 			Match m = r.Match(line);
@@ -36,13 +39,13 @@ namespace Blaze.Interpreter {
 							//this code shouldn't work.  
 							if(excess.Trim(' ') != "{") if (!Interpret(line, out result)) return false;
 							int l = Program.Line;
-							Program.RunStackFrame(n => { if (passing) { Program.Line = l; } });
+							
 						}
 						break;
 					case "if":
 						//if it passes, then interpret the result recursively
 						if (passing) {
-							Program.RunStackFrame(excess);
+							
 						}
 						break;
 					default:

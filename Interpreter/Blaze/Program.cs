@@ -67,35 +67,5 @@ namespace Blaze.Interpreter {
 			else method = null;
 			return hasMethod;
 		}
-
-		public static void RunStackFrame () {
-			StackFrame frame = new StackFrame(Line);
-			stack.Push(frame);
-			while (LineInterpreter.Interpret(lines[Line], out dynamic d)) Line++;
-			stack.Pop();
-			frame.Close();
-			return;
-		}
-
-		public static void RunStackFrame (string firstLine) {
-			StackFrame frame = new StackFrame(Line);
-			stack.Push(frame);
-			LineInterpreter.Interpret(firstLine, out dynamic d);
-			Line++;
-			while (LineInterpreter.Interpret(lines[Line], out d)) Line++;
-			stack.Pop();
-			frame.Close();
-			return;
-		}
-
-		public static void RunStackFrame (Action<int> onStackClose) {
-			StackFrame frame = new StackFrame(Line);
-			stack.Push(frame);
-			while (LineInterpreter.Interpret(lines[Line], out dynamic d)) Line++;
-			stack.Pop();
-			frame.Close();
-			onStackClose(Line);
-			return;
-		}
 	}
 }
