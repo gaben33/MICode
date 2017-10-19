@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 namespace Blaze.Interpreter {
 	public class Method {
 		public string[] lines;
-		public int ParamCount;
 		public dynamic ReturnVal;
 		public int Line;
 
-		public Method(string[] lines, int paramCount, int line) {
+		public Method(string[] lines, int line) {
 			this.lines = lines;
-			ParamCount = paramCount;
 			Line = line;
 		}
 
