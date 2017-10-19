@@ -2,5 +2,5 @@ int Main(){
 int a = ((4+2)*2)^2;
 a = a++;
 a = a++;
-print(a);
+print(a, false && true, 4+2);
 }

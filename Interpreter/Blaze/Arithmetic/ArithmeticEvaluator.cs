@@ -6,7 +6,9 @@ using System;
 namespace Blaze.Interpreter.Arithmetic {
 
     public static class ArithmeticEvaluator {
-        
+
+        private static string TokenRegex = @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|\+\+|-|[,=!+^*/%()<>])";
+
         public static dynamic Evaluate(string input) {
             Variable variable = null;
             Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s?([A-Za-z0-9]+)\s?=([^=;]+);");
@@ -27,7 +29,7 @@ namespace Blaze.Interpreter.Arithmetic {
         }
 
         private static List<string> Tokenize(string input) {
-            List<string> output = Regex.Split(input.Replace(" ", ""), @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|\+\+|-|[=!+^*/%()<>])").ToList(); // Todo don't remove empty space until after tokenizing
+            List<string> output = Regex.Split(input.Replace(" ", ""), TokenRegex).ToList();
             output.RemoveAll(i => i == ""); // TODO split the string such that no empty space tokens are created in the first place
             return output;
         }
@@ -35,18 +37,24 @@ namespace Blaze.Interpreter.Arithmetic {
         private static List<Token> ToPostFix(List<string> tokens) {
             List<Token> output = new List<Token>();
             Stack<Token> stack = new Stack<Token>();
+            Stack<int> arity = new Stack<int>();
 
             for (int i = 0; i < tokens.Count; i++) {
                 Token token = Token.MakeToken(tokens[i]);
                 if (token is Operand) output.Add(token);
-                if (token is Function) stack.Push(token);
+                if (token is Function) { stack.Push(token); arity.Push(1); }
                 if (token is OpeningBracket) stack.Push(token);
                 if (token is ClosingBracket) {
                     while (!(stack.Peek() is OpeningBracket))  output.Add(stack.Pop());
                     if (token.Name == ")") {
                         stack.Pop();
-                        if (stack.Count > 0 && stack.Peek() is Function) output.Add(stack.Pop());
+                        if (stack.Count > 0 && stack.Peek() is Function) {
+                            Function f = (Function) stack.Pop();
+                            f.ArgCount = arity.Pop();
+                            output.Add(f); 
+                        };
                     }
+                    if(token.Name == ",") { arity.Push(arity.Pop() + 1); }
                 }
                 if (token is Operator) {
                     if (token.Name == "-" && Token.IsUnary(i, tokens)) token = Operator.Negative; // determines if binary minus or unary negative

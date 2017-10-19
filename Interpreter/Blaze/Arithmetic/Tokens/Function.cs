@@ -8,15 +8,17 @@ using Blaze.Interpreter;
 namespace Blaze.Interpreter.Arithmetic {
     class Function : Token {
 
-        public int ArgCount { get; private set; }
-        public Variable[] Args { get; set; }
+        private int count;
+        public int ArgCount { get { return count; } set { args = new Variable[value]; count = value; } }
+        private Variable[] args;
+        public Variable[] Args { get { return args; } }
         private Method method;
         
         public Function(Method method) {
             this.method = method;
             //Name = method.Name;
-            ArgCount = method.ParamCount;
-            Args = new Variable[ArgCount];
+            //ArgCount = method.ParamCount;
+            //Args = new Variable[ArgCount];
 
         }
 

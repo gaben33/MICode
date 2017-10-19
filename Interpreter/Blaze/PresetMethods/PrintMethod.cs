@@ -10,7 +10,9 @@ namespace Blaze.Interpreter.PresetMethods {
 		}
 
 		public override void Invoke(Struct signature) {
-			Console.WriteLine(signature.inputs[0]);
+            for(int i = 0; i < signature.inputs.Length; i++) {
+                Console.WriteLine(signature.inputs[signature.inputs.Length-i-1]);
+            }
 		}
 	}
 }
