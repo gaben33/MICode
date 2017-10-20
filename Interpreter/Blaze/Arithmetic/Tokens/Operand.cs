@@ -14,12 +14,11 @@ namespace Blaze.Interpreter.Arithmetic {
         public Operand(string input) {
             Name = input;
             if (Program.HasVariable(input, out Variable variable)) Variable = variable;
-            else if (input[0] == '"' && input[input.Length - 1] == '"') Value = input.Trim('"');
             else if (bool.TryParse(input, out bool boolResult)) Variable = new Variable("", boolResult, typeof(bool));
             else if (int.TryParse(input, out int intResult)) Variable = new Variable("", intResult, typeof(int));
             else if (float.TryParse(input, out float floatResult)) Variable = new Variable("", floatResult, typeof(float));
             else if (char.TryParse(input, out char charResult)) Variable = new Variable("", charResult, typeof(char));
-            else Variable = null;//throw new NotImplementedException("Cannot identify type at line: " + (Program.Line + 1));
+            else Variable = new Variable("", input.Trim('"'), typeof(string));
         }
 
         public override string ToString() => Value.ToString();
