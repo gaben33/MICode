@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blaze.Interpreter.PresetMethods {
 	public class PrintMethod : Method {
-		public PrintMethod(string[] lines) : base(lines, 1, 0) {}
+		public PrintMethod(string[] lines) : base(lines, 0) {}
 
 		public override void Invoke(Struct signature) {
             for(int i = 0; i < signature.inputs.Length; i++) {
@@ -15,7 +15,7 @@ namespace Blaze.Interpreter.PresetMethods {
 		}
 	}
     public class PrintlnMethod : Method {
-        public PrintlnMethod(string[] lines) : base(lines, 1, 0) {}
+        public PrintlnMethod(string[] lines) : base(lines, 0) {}
 
         public override void Invoke(Struct signature) {
             for (int i = 0; i < signature.inputs.Length; i++) {
@@ -25,7 +25,7 @@ namespace Blaze.Interpreter.PresetMethods {
     }
 
     public class Max : Method {
-        public Max(string[] lines) : base(lines, 1, 0) { }
+        public Max(string[] lines) : base(lines, 0) { }
         public override void Invoke(Struct signature) {
             int max = signature.inputs[0].Value;
             for (int i = 0; i < signature.inputs.Length; i++) {
@@ -34,4 +34,20 @@ namespace Blaze.Interpreter.PresetMethods {
             ReturnVal = max;
         }
     }
+
+	public class Random : Method {
+		public Random(string[] lines) : base(lines, 0) {
+		}
+		public override void Invoke(Struct signature) {
+			ReturnVal = (float)(new System.Random().NextDouble());
+		}
+	}
+
+	public class RandomInt : Method {
+		public RandomInt(string[] lines) : base(lines, 0) {
+		}
+		public override void Invoke(Struct signature) {
+			ReturnVal = new System.Random().Next();
+		}
+	}
 }
