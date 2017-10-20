@@ -16,8 +16,7 @@ namespace Blaze.Interpreter.Arithmetic {
             if(m.Success) {
                 string type = m.Groups[1].Value;
                 string name = m.Groups[2].Value;
-                string right = m.Groups[3].Value;
-                dynamic result = EvaluatePostFix(ToPostFix(Tokenize(right)));
+                dynamic result = EvaluatePostFix(ToPostFix(Tokenize(m.Groups[3].Value)));
                 if (type != "") {
                     variable = Program.CreateVariable(name, Variable.ParseType(type), result);
                 } else {
