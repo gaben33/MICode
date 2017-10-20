@@ -2,7 +2,7 @@
 int a = ((4+2)*2)^2;
 a = a++;
 int b = max(1,2,max(3,4,max(4,3,a,1)));
-string h = "hello ";
-string w = "world";
-print(h+w);
+string h = "cory had ";
+string w = "apples";
+print(h+b+w);
 }
