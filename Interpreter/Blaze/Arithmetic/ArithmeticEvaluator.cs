@@ -10,7 +10,6 @@ namespace Blaze.Interpreter.Arithmetic {
         private static string TokenRegex = @"(&&|\|\||==|!=|>=|<=|\+=|-=|\*=|\/=|%=|\+\+|-|[,=!+^*/%()<>])";
 
         public static dynamic Evaluate(string input) {
-            if (input.Contains("{")) return null;
             Variable variable = null;
             Match m = Regex.Match(input, @"([A-Za-z0-9]+)?\s?([A-Za-z0-9]+)\s?=([^=;]+);");
             if(m.Success) {
@@ -29,12 +28,8 @@ namespace Blaze.Interpreter.Arithmetic {
         }
 
         private static List<string> Tokenize(string input) {
-            List<string> output = Regex.Split(input, TokenRegex).ToList();
-            output.RemoveAll(i => i == " " || i == "");
-            for (int i = 0; i < output.Count; i++) {
-                string curToken = output[i];
-                if (curToken[0] != '"' && curToken[curToken.Length - 1] != '"') output[i] = curToken.Replace(" ", "");
-            }
+            List<string> output = Regex.Split(input.Replace(" ", ""), TokenRegex).ToList();
+            output.RemoveAll(i => i == ""); // TODO split the string such that no empty space tokens are created in the first place
             return output;
         }
 

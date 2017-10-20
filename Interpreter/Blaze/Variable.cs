@@ -14,12 +14,12 @@ namespace Blaze {
 			{ typeof(float), s => float.Parse(s) },
 			{ typeof(bool), s => bool.Parse(s) },
 			{ typeof(char), s => char.Parse(s) },
-            { typeof(string), s => s }
-        };
+            { typeof(char), s => s }
+		};
 
 		public Variable(string name, dynamic value, Type type) {
 			Name = name;
-            Value = value;
+			Value = value;
 			Type = type;
 		}
 

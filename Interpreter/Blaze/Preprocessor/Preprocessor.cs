@@ -15,11 +15,12 @@ namespace Blaze.Preprocessor {
 			//do line changing changes after this point
 			EraseComments(ref template);
 			DoDefines(ref template);
+			IsolateScopeOperators(ref template);
 			//DoIncrement(ref template);
 			DoMainMethodCase(ref template);
 			//do things that rely on post-line changes here
+			RemoveEmptyLines(ref template);
 
-			
 			using (StreamWriter swr = File.CreateText(output)) {
 				swr.Write(template);
 			}
@@ -42,9 +43,7 @@ namespace Blaze.Preprocessor {
 			text = Regex.Replace(text, "#DEFINE .+", "");
 		}
 
-		static void DoIncrement (ref string text) {
-			text = Regex.Replace(text, @"([a-zA-Z]+)(\+|-){2}", @"$1 = $1 $2 1");
-		}
+		static void DoIncrement (ref string text) => text = Regex.Replace(text, @"([a-zA-Z]+)(\+|-){2}", @"$1 = $1 $2 1");
 
 		static void BuildLabels (ref string text) {
 			//we need to create labels for goto numbers
@@ -73,8 +72,10 @@ namespace Blaze.Preprocessor {
 			text = string.Join("\n", lines);
 		}
 
-		static void DoMainMethodCase (ref string text) {
-			text = Regex.Replace(text, @"(void|int|char|bool|string)\smain", @"$1 Main");
-		}
+		static void DoMainMethodCase (ref string text) => text = Regex.Replace(text, @"(void|int|char|bool|string)\smain", @"$1 Main");
+
+		static void IsolateScopeOperators (ref string text) => text = Regex.Replace(text, @"\}", @"\n\}\n");
+
+		static void RemoveEmptyLines(ref string text) => text = Regex.Replace(text, @"\s*\n", @"\n");
 	}
 }
