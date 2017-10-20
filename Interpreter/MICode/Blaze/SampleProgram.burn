@@ -4,5 +4,5 @@ a = a++;
 int b = max(1,2,max(3,4,max(4,3,a,1)));
 string h = "hello ";
 string w = "world";
-print(h+w);
+print(h,w);
 }
