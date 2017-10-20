@@ -13,7 +13,8 @@ namespace Blaze {
 			{ typeof(int), s => int.Parse(s) },
 			{ typeof(float), s => float.Parse(s) },
 			{ typeof(bool), s => bool.Parse(s) },
-			{ typeof(char), s => char.Parse(s) }
+			{ typeof(char), s => char.Parse(s) },
+            { typeof(char), s => s }
 		};
 
 		public Variable(string name, dynamic value, Type type) {
@@ -31,6 +32,7 @@ namespace Blaze {
             if (input == "float") return typeof(float);
             if (input == "bool") return typeof(bool);
             if (input == "char") return typeof(char);
+            if (input == "string") return typeof(string);
             throw new NotImplementedException("This type is not yet supported: " + input);
         }
 
